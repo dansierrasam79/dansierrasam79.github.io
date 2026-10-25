@@ -1,36 +1,135 @@
-<h2>1. Overview and Core Privacy Principle</h2>
-<p>Sheet Data Cleaner Studio is engineered on a strict <strong>zero-data-collection, client-side execution model</strong>. The Add-on executes 100% deterministic data transformation algorithms locally inside your Google Apps Script V8 runtime session. <strong>We do not collect, store, transmit, or monetize your spreadsheet data, personal information, or user files.</strong></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Sheet Data Cleaner Studio</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #202124;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 820px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 40px 48px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(60,64,67,0.15);
+      border: 1px solid #dadce0;
+    }
+    h1 {
+      font-size: 28px;
+      color: #1a73e8;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .date-meta {
+      font-size: 14px;
+      color: #5f6368;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #e8eaed;
+      padding-bottom: 16px;
+    }
+    h2 {
+      font-size: 19px;
+      color: #202124;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #f1f3f4;
+      padding-bottom: 6px;
+    }
+    p, li {
+      font-size: 15px;
+      color: #3c4043;
+    }
+    ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    code {
+      background-color: #f1f3f4;
+      color: #d93025;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13.5px;
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+    a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #e8eaed;
+      font-size: 13px;
+      color: #5f6368;
+    }
+  </style>
+</head>
+<body>
 
-<h2>2. Permissions and Scopes Used</h2>
-<p>The Add-on requests strictly narrow, essential OAuth scopes required solely to perform spreadsheet operations within the active document:</p>
-<ul>
-  <li><strong><code>https://www.googleapis.com/auth/spreadsheets.currentonly</code></strong>: Allows the Add-on to read and format data only in the specific spreadsheet where you activate it. It cannot view, access, or alter any other files in your Google Drive.</li>
-  <li><strong><code>https://www.googleapis.com/auth/script.container.ui</code></strong>: Allows the Add-on to render its sidebar interface and native dialog prompts within Google Sheets.</li>
-</ul>
+<div class="container">
+  <h1>Privacy Policy for Sheet Data Cleaner Studio</h1>
+  <div class="date-meta">
+    <strong>Effective Date:</strong> October 24, 2026 | <strong>Last Updated:</strong> October 25, 2026
+  </div>
 
-<h2>3. Data Processing Architecture</h2>
-<ul>
-  <li><strong>In-Memory Processing:</strong> All data transformations (whitespace sanitization, duplicate identification, date standardization, casing changes, missing value handling, and PII masking) run entirely in-memory within your active browser session and Google's execution sandbox.</li>
-  <li><strong>Zero External Transmission:</strong> The Add-on contains zero external webhooks, telemetries, third-party analytics trackers, or external database calls. Your cell data never leaves Google's ecosystem.</li>
-  <li><strong>No Artificial Intelligence or LLM Processing:</strong> The Add-on operates on pure deterministic regular expressions and standard algorithms. No user data is sent to external artificial intelligence models or used for model training.</li>
-</ul>
+  <h2>1. Overview and Core Privacy Principle</h2>
+  <p>Sheet Data Cleaner Studio ("the Add-on", "we", "our") is an Editor Add-on built for Google Sheets™. The Add-on is engineered on a strict zero-data-collection, client-side execution model. It executes 100% deterministic data transformation and sanitization algorithms locally inside your Google Apps Script V8 runtime session. We do not collect, store, transmit, monetize, share, transfer, or disclose your spreadsheet data, personal information, or user files.</p>
 
-<h2>4. Data Storage and Retention</h2>
-<p>Because the Add-on does not operate external databases or servers, no user data, spreadsheet contents, tokens, or profile information is ever stored, logged, or retained by us.</p>
+  <h2>2. Permissions and OAuth Scopes Used</h2>
+  <p>The Add-on requests strictly narrow, essential OAuth scopes required solely to perform spreadsheet operations within the active document:</p>
+  <ul>
+    <li><code>https://www.googleapis.com/auth/spreadsheets.currentonly</code>: Allows the Add-on to read and format data only in the specific, active spreadsheet where you launch it. It cannot view, access, or alter any other spreadsheets or files across your Google Drive.</li>
+    <li><code>https://www.googleapis.com/auth/script.container.ui</code>: Allows the Add-on to display its custom HTML/CSS sidebar interface and native dialog prompts inside Google Sheets via <code>SpreadsheetApp.getUi()</code>. It is not used to embed or load third-party scripts or external web frames.</li>
+  </ul>
 
-<h2>5. Third-Party Sharing</h2>
-<p>We do not share, sell, rent, or trade your data with any third parties. All operations are strictly confined between your Google account and Google Cloud's official Apps Script infrastructure.</p>
+  <h2>3. Data Processing Architecture</h2>
+  <ul>
+    <li><strong>In-Memory Processing:</strong> All data transformations (whitespace sanitization, duplicate identification, date standardization, casing changes, missing value handling, and schema exports) run entirely in-memory within your active browser session and Google Apps Script's execution sandbox.</li>
+    <li><strong>Zero External Transmission:</strong> The Add-on contains zero external webhooks, telemetries, third-party analytics trackers, or external database calls. Your cell values and spreadsheet metadata never leave Google's official infrastructure.</li>
+    <li><strong>No Artificial Intelligence or LLM Processing:</strong> The Add-on operates on pure deterministic regular expressions and standard JavaScript array algorithms. No user data is sent to external artificial intelligence models or used for model training.</li>
+  </ul>
 
-<h2>6. Google Limited Use Policy Compliance</h2>
-<p>Sheet Data Cleaner Studio's use and transfer to any other app of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+  <h2>4. Data Storage and Retention</h2>
+  <p>Because Sheet Data Cleaner Studio does not operate external databases, logging systems, or servers, no user data, spreadsheet contents, tokens, or profile information is ever stored, logged, or retained by us.</p>
 
-<h2>7. Changes to This Policy</h2>
-<p>We may update this Privacy Policy from time to time. Any updates will be reflected on this page with a revised "Last Updated" date.</p>
+  <h2>5. Third-Party Sharing, Transfer, and Disclosure</h2>
+  <p>We do not sell, rent, trade, share, transfer, or disclose Google user data, spreadsheet contents, or personal information to any third parties, advertising platforms, or data brokers. All computational operations remain strictly confined between your authenticated Google account and Google Cloud's official Apps Script infrastructure.</p>
 
-<h2>8. Contact Information</h2>
-<div class="contact-box">
-  <p>If you have any questions or concerns regarding this Privacy Policy, please contact:</p>
-  <p><strong>Daniel Chakraborty</strong><br>
-  Website: <a href="https://danielchakraborty.com" target="_blank">https://danielchakraborty.com</a><br>
-  Email: support@danielchakraborty.com</p>
+  <h2>6. Google API Services User Data Policy & Limited Use Compliance</h2>
+  <p>Sheet Data Cleaner Studio's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+  <h2>7. User Rights and Access Revocation</h2>
+  <p>Because the Add-on does not retain user data on external servers, there is no persistent personal data stored to inspect, modify, or delete. Users retain complete control over application access and may revoke the Add-on's permissions at any time through Google Account Permissions at <a href="https://myaccount.google.com/connections" target="_blank" rel="noopener noreferrer">myaccount.google.com/connections</a>.</p>
+
+  <h2>8. Changes to This Policy</h2>
+  <p>We may update this Privacy Policy from time to time to maintain compliance with applicable platform guidelines. Any revisions will be published directly to this page with an updated "Last Updated" date.</p>
+
+  <h2>9. Contact & Developer Information</h2>
+  <p>If you have any questions, concerns, or inquiries regarding this Privacy Policy, please contact:</p>
+  <p>
+    <strong>Developer:</strong> Daniel Chakraborty<br>
+    <strong>Website:</strong> <a href="https://danielchakraborty.com" target="_blank">https://danielchakraborty.com</a><br>
+    <strong>Support Email:</strong> <a href="mailto:support@danielchakraborty.com">support@danielchakraborty.com</a>
+  </p>
+
+  <div class="footer">
+    <em>Google Sheets™ and Google Workspace™ are trademarks of Google LLC.</em>
+  </div>
 </div>
+
+</body>
+</html>
