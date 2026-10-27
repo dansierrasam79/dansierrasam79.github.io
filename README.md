@@ -77,6 +77,6 @@ If you have questions, feedback, or require technical support for any of the hos
 - **Website:** danielchakraborty.com
 
 ---
-
-*Dedicated in loving memory of my late father, Rev. Swapan Chakraborty, who believed that, if you have tried everything else and failed, try Jesus.*  
 © 2026 Daniel Chakraborty. All rights reserved.
+
+*Dedicated in loving memory to my late father, Rev. Swapan Chakraborty, who believed: "If you have tried everything else and failed, try Jesus."*
