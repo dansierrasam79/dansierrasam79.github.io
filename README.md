@@ -1,4 +1,7 @@
 # Daniel Chakraborty
+
+[![Google Developer Profile](https://img.shields.io/badge/Google_Developer-danielchakraborty-4285F4?logo=google&logoColor=white)](https://g.dev/danielchakraborty)
+
 ### Developer Hub & Portfolio
 
 Welcome to my personal developer portal and open-source landing hub. This repository hosts documentation, user policies, and support resources for my software utilities, Chrome extensions, themes, and Google Workspace add-ons.
