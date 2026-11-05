@@ -1,30 +1,157 @@
-<h2>Automate Form Closures Without External Servers</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FormLimit Studio - Automate Form Closures Without External Servers</title>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --text: #202124;
+      --subtext: #5f6368;
+      --border: #dadce0;
+      --background: #f8f9fa;
+      --surface: #ffffff;
+    }
 
-<p>
-  <strong>FormLimit Studio</strong> is a native Google Workspace™ add-on designed for form owners who require precise submission caps or date/time deadlines. Built entirely inside Google Apps Script™, it features a zero-server architecture where your form configuration and submission data never leave Google's secure infrastructure.
-</p>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-<h3>Core Features</h3>
-<ul>
-  <li><strong>Response Count Limits:</strong> Automatically shuts down the form the exact second a pre-configured response threshold is reached.</li>
-  <li><strong>Scheduled Deadlines:</strong> Automatically disables public submissions when a specific date and time occurs.</li>
-  <li><strong>Custom Closed Messages:</strong> Tailor the notification message respondents see once the form shuts down.</li>
-  <li><strong>Transactional Email Alerts:</strong> Notifies form creators immediately via Gmail™ when a form reaches its limit.</li>
-</ul>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--background);
+      padding: 40px 20px;
+    }
 
-<h3>Technical Support &amp; Inquiries</h3>
-<p>
-  Have questions, encountered an issue, or need help uninstalling FormLimit Studio? We are committed to maintaining a secure and reliable experience.
-</p>
-<p>
-  <strong>Support Email:</strong> <a href="mailto:swapan.eseva.kendra@gmail.com">swapan.eseva.kendra@gmail.com</a><br>
-  <em>Our typical support response window is within 24 to 48 business hours.</em>
-</p>
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 40px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
 
-<hr>
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
 
-<footer style="font-size: 11px; color: #5f6368; line-height: 1.4;">
-  <p>
-    Google Workspace™, Google Forms™, Google Apps Script™, and Gmail™ are trademarks of Google LLC. FormLimit Studio is an independent add-on developed to integrate with Google Workspace applications and is not affiliated with, endorsed by, or sponsored by Google LLC.
-  </p>
-</footer>
+    h1 {
+      font-size: 26px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: var(--subtext);
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-top: 28px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    p {
+      margin-bottom: 14px;
+      font-size: 14px;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .feature-card {
+      background: var(--background);
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      margin: 24px 0;
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: 32px 0 20px 0;
+    }
+
+    footer {
+      font-size: 12px;
+      color: var(--subtext);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>FormLimit Studio</h1>
+      <div class="subtitle">Automate Form Closures Without External Servers</div>
+    </header>
+
+    <div class="feature-card">
+      <strong>FormLimit Studio</strong> is a native Google Workspace™ add-on designed for form owners who require precise submission caps or date/time deadlines. Built entirely inside Google Apps Script™, it features a zero-server architecture where your form configuration and submission data never leave Google's secure infrastructure.
+    </div>
+
+    <h2>Core Features</h2>
+    <ul>
+      <li><strong>Response Count Limits:</strong> Automatically shuts down the form the exact second a pre-configured response threshold is reached.</li>
+      <li><strong>Scheduled Deadlines:</strong> Automatically disables public submissions when a specific date and time occurs across all timezones.</li>
+      <li><strong>Custom Closed Messages:</strong> Tailor the notification message respondents see once the form shuts down.</li>
+      <li><strong>Transactional Email Alerts:</strong> Notifies form creators immediately via Gmail™ when a form reaches its limit.</li>
+    </ul>
+
+    <h2>Technical Support &amp; Inquiries</h2>
+    <p>
+      Have questions, encountered an issue, or need help uninstalling FormLimit Studio? We are committed to maintaining a secure and reliable experience.
+    </p>
+    <p>
+      <strong>Developer:</strong> Daniel Chakraborty<br>
+      <strong>Support Email:</strong> <a href="mailto:swapan.eseva.kendra@gmail.com">swapan.eseva.kendra@gmail.com</a><br>
+      <em>Our typical support response window is within 24 to 48 business hours.</em>
+    </p>
+
+    <div class="nav-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <span>&bull;</span>
+      <a href="policy.html">Terms of Service</a>
+    </div>
+
+    <hr>
+
+    <footer>
+      <p>
+        Google Workspace™, Google Forms™, Google Apps Script™, and Gmail™ are trademarks of Google LLC. FormLimit Studio is an independent add-
