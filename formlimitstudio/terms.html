@@ -9,89 +9,169 @@
       --primary: #1a73e8;
       --text: #202124;
       --subtext: #5f6368;
-      --bg: #f8f9fa;
       --border: #dadce0;
-      --card-bg: #ffffff;
+      --background: #f8f9fa;
+      --surface: #ffffff;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
-      background-color: var(--bg);
       line-height: 1.6;
+      color: var(--text);
+      background-color: var(--background);
+      padding: 40px 20px;
     }
+
     .container {
-      max-width: 820px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    .card {
-      background: var(--card-bg);
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 36px;
-      margin-bottom: 24px;
+      padding: 40px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    h1 { font-size: 26px; margin-bottom: 8px; }
-    h2 { font-size: 18px; margin-top: 24px; margin-bottom: 12px; color: var(--text); border-bottom: 1px solid #eee; padding-bottom: 6px; }
-    p, li { color: #3c4043; font-size: 14px; margin-bottom: 12px; }
-    ul { padding-left: 24px; margin-bottom: 16px; }
-    .updated { font-size: 12px; color: var(--subtext); margin-bottom: 24px; }
-    .footer { text-align: center; padding: 30px 20px; font-size: 13px; color: var(--subtext); }
-    .footer a { color: var(--primary); text-decoration: none; margin: 0 10px; }
+
+    h1 {
+      font-size: 26px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--subtext);
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 17px;
+      margin-top: 26px;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    p {
+      margin-bottom: 14px;
+      font-size: 14px;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .caps-disclaimer {
+      background-color: #f8f9fa;
+      border-left: 4px solid #d93025;
+      padding: 14px;
+      border-radius: 0 4px 4px 0;
+      font-size: 13px;
+      margin: 16px 0;
+      color: #3c4043;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: 32px 0 20px 0;
+    }
+
+    footer {
+      font-size: 12px;
+      color: var(--subtext);
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="card">
-      <h1>Terms of Service for FormLimit Studio</h1>
-      <div class="updated">Last updated: November 3, 2026</div>
+    <h1>Terms of Service for FormLimit Studio</h1>
+    <div class="meta">Last updated: November 5, 2026</div>
 
-      <p>Please read these Terms of Service ("Terms") carefully before using <strong>FormLimit Studio</strong> (the "Add-on"). By installing or using the Add-on, you agree to be bound by these Terms.</p>
-
-      <h2>1. Description of Service</h2>
-      <p>FormLimit Studio is a Google Forms add-on that automates the closure of form submissions based on response counts or scheduled time deadlines and optionally dispatches closure notifications to the form creator.</p>
-
-      <h2>2. Permitted Use and License</h2>
-      <p>We grant you a personal, non-exclusive, non-transferable, revocable license to install and use FormLimit Studio in compliance with Google Workspace Marketplace policies and applicable local laws. You agree not to reverse-engineer, exploit, or disrupt the operation of the Add-on.</p>
-
-      <h2>3. User Responsibilities</h2>
-      <ul>
-        <li>You are responsible for correctly configuring limit criteria (threshold numbers, time zones, and closure notices) inside the sidebar interface.</li>
-        <li>You are responsible for ensuring that automatic closures do not violate commitments made to your form respondents.</li>
-        <li>You agree to comply with all Google Workspace Terms of Service and applicable privacy regulations.</li>
-      </ul>
-
-      <h2>4. Quotas and Platform Dependencies</h2>
-      <p>FormLimit Studio relies directly on Google Apps Script and Google Workspace runtime services. Execution is subject to Google's standard platform quotas (such as daily email delivery limits and maximum trigger execution times). We are not responsible for delays or service interruptions caused by Google infrastructure downtime or quota exhaustion.</p>
-
-      <h2>5. Disclaimer of Warranties</h2>
-      <p>THE ADD-ON IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT GUARANTEE THAT FORM CLOSURES WILL BE ERROR-FREE OR UNINTERRUPTED UNDER RAPID HIGH-CONCURRENCY CONDITIONS BEYOND GOOGLE'S RUNTIME CONSTRAINTS.</p>
-
-      <h2>6. Limitation of Liability</h2>
-      <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE DEVELOPERS OF FORMLIMIT STUDIO BE LIABLE FOR ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, OR PUNITIVE DAMAGES (INCLUDING LOSS OF DATA, OPPORTUNITY, OR REVENUE) ARISING FROM OR RELATED TO YOUR USE OR INABILITY TO USE THE ADD-ON.</p>
-
-      <h2>7. Modifications to the Terms</h2>
-      <p>We reserve the right to revise or update these Terms as necessary to maintain compliance with Google policies and legal requirements. Your continued use of FormLimit Studio following posted updates constitutes acceptance of the modified Terms.</p>
-
-      <h2>8. Termination</h2>
-      <p>You may terminate your agreement with these Terms at any time by uninstalling the Add-on from Google Workspace Marketplace and revoking its authorization from your Google Account settings.</p>
-
-      <h2>9. Contact Information</h2>
-      <p>For questions or support regarding these Terms of Service, please reach out to:</p>
-      <p><strong>Email:</strong> <a href="mailto:swapan.eseva.kendra@gmail.com">swapan.eseva.kendra@gmail.com</a></p>
-    </div>
-  </div>
-
-  <footer class="footer">
-    <p>&copy; 2026 FormLimit Studio. All rights reserved.</p>
     <p>
-      <a href="index.html">Home</a> &bull;
-      <a href="privacy.html">Privacy Policy</a> &bull;
-      <a href="terms.html">Terms of Service</a>
+      Please read these Terms of Service ("Terms") carefully before using FormLimit Studio (the "Add-on"). By installing or using the Add-on, you agree to be bound by these Terms.
     </p>
-  </footer>
+
+    <h2>1. Description of Service</h2>
+    <p>
+      FormLimit Studio is a Google Forms™ add-on that automates the closure of form submissions based on response counts or scheduled time deadlines and optionally dispatches closure notifications to the form creator.
+    </p>
+
+    <h2>2. Permitted Use and License</h2>
+    <p>
+      We grant you a personal, non-exclusive, non-transferable, revocable license to install and use FormLimit Studio in compliance with Google Workspace Marketplace™ policies and applicable local laws. You agree not to reverse-engineer, exploit, or disrupt the operation of the Add-on.
+    </p>
+
+    <h2>3. User Responsibilities</h2>
+    <ul>
+      <li>You are responsible for correctly configuring limit criteria (threshold numbers, time zones, and closure notices) inside the sidebar interface.</li>
+      <li>You are responsible for ensuring that automatic closures do not violate commitments made to your form respondents.</li>
+      <li>You agree to comply with all Google Workspace™ Terms of Service and applicable privacy regulations.</li>
+    </ul>
+
+    <h2>4. Quotas and Platform Dependencies</h2>
+    <p>
+      FormLimit Studio relies directly on Google Apps Script™ and Google Workspace™ runtime services. Execution is subject to Google's standard platform quotas (such as daily email delivery limits and maximum trigger execution times). We are not responsible for delays or service interruptions caused by Google infrastructure downtime or quota exhaustion.
+    </p>
+
+    <h2>5. Disclaimer of Warranties</h2>
+    <div class="caps-disclaimer">
+      THE ADD-ON IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT GUARANTEE THAT FORM CLOSURES WILL BE ERROR-FREE OR UNINTERRUPTED UNDER RAPID HIGH-CONCURRENCY CONDITIONS BEYOND GOOGLE'S RUNTIME CONSTRAINTS.
+    </div>
+
+    <h2>6. Limitation of Liability</h2>
+    <div class="caps-disclaimer">
+      TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE DEVELOPERS OF FORMLIMIT STUDIO BE LIABLE FOR ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, OR PUNITIVE DAMAGES (INCLUDING LOSS OF DATA, OPPORTUNITY, OR REVENUE) ARISING FROM OR RELATED TO YOUR USE OR INABILITY TO USE THE ADD-ON.
+    </div>
+
+    <h2>7. Modifications to the Terms</h2>
+    <p>
+      We reserve the right to revise or update these Terms as necessary to maintain compliance with Google policies and legal requirements. Your continued use of FormLimit Studio following posted updates constitutes acceptance of the modified Terms.
+    </p>
+
+    <h2>8. Termination</h2>
+    <p>
+      You may terminate your agreement with these Terms at any time by uninstalling the Add-on from Google Workspace Marketplace™ and revoking its authorization from your <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">Google Account permissions dashboard</a>.
+    </p>
+
+    <h2>9. Contact Information</h2>
+    <p>
+      For questions or support regarding these Terms of Service, please reach out to:
+    </p>
+    <p>
+      <strong>Developer:</strong> Daniel Chakraborty<br>
+      <strong>Support Email:</strong> <a href="mailto:swapan.eseva.kendra@gmail.com">swapan.eseva.kendra@gmail.com</a><br>
+      <em>Support response window: within 24 to 48 business hours.</em>
+    </p>
+
+    <hr>
+
+    <footer>
+      <p>
+        Google Workspace™, Google Forms™, Google Apps Script™, and Gmail™ are trademarks of Google LLC. FormLimit Studio is an independent add-on developed to integrate with Google Workspace applications and is not affiliated with, endorsed by, or sponsored by Google LLC.
+      </p>
+    </footer>
+  </div>
 
 </body>
 </html>
