@@ -15,6 +15,7 @@ Every utility in this portfolio is engineered around strict, privacy-first princ
 - **Least-Privilege Scopes:** Minimal OAuth boundaries (e.g., `spreadsheets.currentonly`, `script.container.ui`, Chrome Manifest V3) ensuring user data never leaves the local session.
 - **Zero-Maintenance Footprint:** Self-contained runtimes with no recurring external API overhead (outside optional user BYOK).
 - **Core Ethos & Dedication:** Built on principles of integrity, transparency, and humble service—founded in memory of my late father, an ordained pastor, whose lifelong counsel remains: *"If you have tried everything else and failed, try Jesus."*
+
 ---
 
 ### 🚀 Active & Published Fleet
@@ -40,6 +41,7 @@ A curated fleet of distraction-free browser themes published on the Chrome Web S
 - **Tab Beacon Suite:** Royal Violet, Amber Gold, Acid Lime, Electric Coral, Electric Cyan.
 - **Developer & Minimalist Palette:** OLED PurePitch, NordHorizon, PaperLens, Tokyo Night, Solarized Sepia, Catppuccin Mocha.
 - **Biblical Themes:** Byzantine Gold, Codex Vellum, Mount Sinai Dawn & Gethsemane Olive.
+
 ---
 
 ### 🛠️ Active Development & Pipeline
