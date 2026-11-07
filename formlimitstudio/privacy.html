@@ -55,13 +55,6 @@
       color: var(--text);
     }
 
-    h3 {
-      font-size: 15px;
-      margin-top: 20px;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
     p {
       margin-bottom: 14px;
       font-size: 14px;
@@ -141,7 +134,7 @@
 
   <div class="container">
     <h1>Privacy Policy for FormLimit Studio</h1>
-    <div class="meta">Last updated: November 5, 2026</div>
+    <div class="meta">Last updated: November 7, 2026</div>
 
     <p>
       This Privacy Policy describes how FormLimit Studio ("we", "us", or "our") accesses, processes, and protects your data when you install and use our Google Workspace™ add-on.
@@ -157,7 +150,18 @@
       <li>All configuration limits (such as response threshold counts, target deadlines, custom closure messages, and notification preferences) are stored strictly inside your form's native <code>PropertiesService</code> within your Google account.</li>
     </ul>
 
-    <h2>2. Google OAuth Permissions &amp; Data Use Disclosures</h2>
+    <h2>2. Data Protection Mechanisms for Sensitive Data</h2>
+    <p>
+      We take data protection and the security of sensitive user data seriously. FormLimit Studio protects sensitive and restricted data through the following mechanisms:
+    </p>
+    <ul>
+      <li><strong>Encryption in Transit:</strong> All communications between the client interface, Google Forms™, and Google Apps Script™ APIs are encrypted in transit using industry-standard Transport Layer Security (TLS 1.2/1.3 / HTTPS). Data is never routed over unencrypted HTTP channels.</li>
+      <li><strong>Encryption at Rest:</strong> FormLimit Studio maintains zero external databases. All persistent configurations and sensitive OAuth access tokens are secured at rest within Google Cloud infrastructure using standard Google Workspace encryption mechanisms (AES-256 bit encryption at rest).</li>
+      <li><strong>In-Memory Processing &amp; Session Isolation:</strong> Execution of respondent count checks, trigger scheduling, and email alert logic occurs strictly in-memory during active Apps Script runtime execution sessions. No sensitive data, submission contents, or email payloads are cached, logged, or serialized externally.</li>
+      <li><strong>Strict Scope Minimization &amp; Access Controls:</strong> Access is guarded via Google's OAuth 2.0 authorization framework. The add-on requests only container-bound and least-privilege scopes (e.g., <code>forms.currentonly</code>). Processing is strictly restricted to the executing user's session (<code>Session.getEffectiveUser()</code>), preventing any cross-user or external system access.</li>
+    </ul>
+
+    <h2>3. Google OAuth Permissions &amp; Data Use Disclosures</h2>
     <p>
       In accordance with the principle of least privilege, FormLimit Studio requests only the minimal permissions required to function:
     </p>
@@ -198,24 +202,24 @@
       FormLimit Studio's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a>, including the <a href="https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes" target="_blank" rel="noopener noreferrer">Limited Use</a> requirements.
     </div>
 
-    <h2>3. AI and Machine Learning Model Training</h2>
+    <h2>4. AI and Machine Learning Model Training</h2>
     <p>
       FormLimit Studio does not use, transfer, or disclose Google Workspace user data or respondent data to train, retrain, or improve generalized or non-personalized machine learning (ML) or artificial intelligence (AI) models.
     </p>
 
-    <h2>4. Human Access to Data</h2>
+    <h2>5. Human Access to Data</h2>
     <p>
       We do not allow human access to your Google Forms content or submission responses. Because all processing executes in your own Google account via Google Apps Script runtime, no personnel or contractors have access to your forms or form entries.
     </p>
 
-    <h2>5. Data Retention and Deletion</h2>
+    <h2>6. Data Retention and Deletion</h2>
     <ul>
       <li><strong>No External Retention:</strong> Because we do not store your data on external databases, there is no external profile or stored data footprint to manage or delete.</li>
       <li><strong>Form Data Removal:</strong> All stored configuration parameters reside within the Google Form container. Deleting the Google Form or clearing the limits from the sidebar purges the configuration.</li>
       <li><strong>Revoking Access:</strong> You can completely revoke FormLimit Studio's permissions at any time via your <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">Google Account Permissions Dashboard</a> or by uninstalling the add-on from Google Workspace Marketplace™.</li>
     </ul>
 
-    <h2>6. Technical Support &amp; Contact Us</h2>
+    <h2>7. Technical Support &amp; Contact Us</h2>
     <p>
       If you have questions, encountered an issue, or need technical assistance regarding this Privacy Policy or your data, please contact:
     </p>
