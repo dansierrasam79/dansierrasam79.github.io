@@ -23,9 +23,7 @@ Every utility in this portfolio is engineered around strict, privacy-first princ
 #### 🧩 Google Workspace Add-ons
 - **FormulaFix AI**  
   An AI-powered Google Sheets add-on that assists users with creating, debugging, and optimizing complex spreadsheet formulas directly inside Google Sheets via BYOK Gemini API integration.
-- **Sheet Data Cleaner Studio**  
-  A zero-AI, deterministic spreadsheet sanitization workbench for Google Sheets.
-  - *Features:* Trims erratic whitespace, normalizes text casing, batch-removes empty structures, composite deduplication, and exports clean BigQuery/Pandas schemas.
+- **Sheet Data Cleaner Studio:** A zero-AI, deterministic spreadsheet sanitization workbench for Google Sheets.
 - **Sheet Table Reshaper Studio:** In-memory unpivot/melt engine with multi-tier stacked header collapsing, delimited text-to-rows vertical explosion, and hierarchy unmerge/auto-fill.
 - **Sheet Consolidator Studio:** Multi-tab union and stacking engine with regex sheet-name filtering (`^2026_Q[1-4]`) and schema auto-alignment.
 
