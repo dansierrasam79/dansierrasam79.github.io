@@ -1,1 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luach Harmonizer — Jewish Calendar & Workweek Engine for Google Sheets</title>
+  <meta name="description" content="In-memory Sunday–Thursday workweek engine, Halachic holiday collision detector, and custom formulas for Google Sheets. Privacy-first, zero telemetry.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0F52BA;
+      --primary-dark: #083D8D;
+      --primary-light: #E8F0FE;
+      --accent: #1A73E8;
+      --text: #1F2937;
+      --text-muted: #4B5563;
+      --bg: #F9FAFB;
+      --card-bg: #FFFFFF;
+      --border: #E5E7EB;
+      --code-bg: #F3F4F6;
+      --success: #059669;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background-color: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff !important;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark) !important;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 3rem;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-size: 2.75rem;
+      line-height: 1.2;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .main-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.75rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .feature-list {
+      list-style: none;
+    }
+
+    .feature-list li {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .feature-list li::before {
+      content: "✓";
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    td code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--code-bg);
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    .privacy-card {
+      background: #FFFFFF;
+      border-left: 4px solid var(--primary);
+      padding: 1.5rem;
+      border-radius: 0 8px 8px 0;
+      margin-top: 2rem;
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    footer {
+      background: #FFFFFF;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="#" class="brand">
+        <div class="brand-icon">📅</div>
+        <span>Luach Harmonizer</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#formulas">Custom Formulas</a>
+        <a href="#privacy">Privacy & Scopes</a>
+        <a href="#support">Support</a>
+        <a href="https://workspace.google.com/marketplace" class="btn-primary" target="_blank" rel="noopener">Install Add-on</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="badge">Google Sheets Editor Add-on</div>
+      <h1>Harmonize Israeli Workweeks & Halachic Calendars</h1>
+      <p>A deterministic lunisolar engine and project schedule harmonizer built for Google Sheets. Seamlessly bridge Sunday–Thursday sprint cycles, Chagim shifts, and Jewish dates directly in your spreadsheets.</p>
+      <div class="hero-actions">
+        <a href="https://workspace.google.com/marketplace" class="btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem;" target="_blank" rel="noopener">Get from Google Workspace Marketplace</a>
+      </div>
+    </section>
+
+    <div class="main-container">
+      <div class="grid-2" id="features">
+        <div class="card">
+          <h2><span>⚡</span> Method 1: Interactive Harmonizer</h2>
+          <p>Automate Gantt charts, sprint roadmaps, and delivery timelines via the native Google Sheets sidebar.</p>
+          <ul class="feature-list">
+            <li><strong>Weekend & Chag Snapping:</strong> Automatically shifts start dates falling on Friday, Saturday, or statutory Chagim to the next valid working day.</li>
+            <li><strong>Duration Recalculation:</strong> Accurately computes true completion dates accounting for Jewish holidays and statutory rest days.</li>
+            <li><strong>Policy Toggles:</strong> Granular controls for Erev Chag (eve of holidays) and Chol HaMoed (intermediate festival days).</li>
+            <li><strong>Gantt Demo Generator:</strong> One-click setup of an interactive, pre-calibrated test sheet with automated conditional formatting.</li>
+          </ul>
+        </div>
+
+        <div class="card" id="formulas">
+          <h2><span>📐</span> Method 2: In-Cell Formulas</h2>
+          <p>Native custom functions that calculate dynamically across spreadsheet cells with zero external API calls.</p>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Formula</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>=HEBREW_DATE(date)</code></td>
+                  <td>Converts Gregorian date into full Hebrew representation with Gematria.</td>
+                </tr>
+                <tr>
+                  <td><code>=IS_CHAG(date, [type])</code></td>
+                  <td>Detects Jewish holidays, fast days, and Israeli statutory events.</td>
+                </tr>
+                <tr>
+                  <td><code>=ISRAEL_WORKDAYS(start, end, ...)</code></td>
+                  <td>Computes net business days enforcing the Sunday–Thursday workweek.</td>
+                </tr>
+                <tr>
+                  <td><code>=ISRAEL_WORKDAY_ADD(start, n, ...)</code></td>
+                  <td>Adds N business days advancing across weekends and statutory Chagim.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 2rem;">
+        <h2><span>🛡️</span> Zero-Telemetry Halachic Algorithm</h2>
+        <p>Built with a 100% in-memory mathematical lunisolar engine calibrated against canonical Metonic cycles and Knesset statutory laws (Law 5709-1949 / Amendment 5764-2004).</p>
+        <ul class="feature-list">
+          <li>Handles 4 Dechiyyot postponement rules (Molad Zaken, Lo ADU Rosh, GaTaRaD, BeTuTaKTaPh).</li>
+          <li>Accurately resolves dynamic Kislev/Tevet variations and leap-year Adar I/II splits.</li>
+          <li>Computes statutory shifts for Yom HaShoah, Yom HaZikaron, and Yom HaAtzmaut to prevent Shabbat desecration.</li>
+          <li>Tested against 100 consecutive years of invariant sweeps with 100% test pass rate.</li>
+        </ul>
+      </div>
+
+      <div class="privacy-card" id="privacy">
+        <h3 style="color: var(--primary-dark); margin-bottom: 0.5rem; font-size: 1.15rem;">Privacy-First Architecture</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.75rem;">
+          Luach Harmonizer operates under strict minimal OAuth scopes:
+        </p>
+        <ul style="margin-left: 1.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; color: var(--text);">
+          <li><code>https://www.googleapis.com/auth/spreadsheets.currentonly</code> — Accesses only the active spreadsheet running the add-on.</li>
+          <li><code>https://www.googleapis.com/auth/script.container.ui</code> — Renders the sidebar interface and dialog prompts.</li>
+        </ul>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">
+          <strong>Zero Telemetry:</strong> All calendar calculations and schedule harmonizations execute strictly in-memory inside your browser and Google Apps Script runtime. No user data, spreadsheet values, or analytics are ever collected, logged, or transmitted to any external server.
+        </p>
+      </div>
+
+      <div class="card" id="support" style="margin-top: 2rem;">
+        <h2><span>📬</span> Support & Developer Information</h2>
+        <p>Need help or have questions regarding Luach Harmonizer? Reach out directly or visit the developer documentation.</p>
+        <p style="font-size: 0.95rem;">
+          <strong>Developer:</strong> Daniel Chakraborty (<a href="https://danielchakraborty.com" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: none;">danielchakraborty.com</a>)<br>
+          <strong>Support Email:</strong> <a href="mailto:support@danielchakraborty.com" style="color: var(--primary); text-decoration: none;">support@danielchakraborty.com</a><br>
+          <strong>GitHub:</strong> <a href="https://github.com/dansierrasam79" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: none;">dansierrasam79</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://danielchakraborty.com">Home</a>
+      <a href="#features">Features</a>
+      <a href="#formulas">Formulas</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#support">Support</a>
+    </div>
+    <p>&copy; 2026 Daniel Chakraborty. All rights reserved. Google Sheets is a trademark of Google LLC.</p>
+  </footer>
+
+</body>
+</html>
