@@ -33,6 +33,7 @@ Every utility in this portfolio is engineered around strict, privacy-first princ
 #### 🌐 Chrome Extensions & Browser Tools
 - **FactLens:** Lightweight in-browser fact and entity context reader for research workflows.
 - **Tabulara:** Client-side web table and tabular data extractor to instant CSV.
+- **CleanMark:** A zero-telemetry, client-side webpage-to-Markdown extractor for Chromium and Edge.
 
 #### 🎨 Chrome Themes
 A curated fleet of distraction-free browser themes published on the Chrome Web Store:
