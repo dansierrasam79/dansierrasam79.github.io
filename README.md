@@ -45,6 +45,8 @@ A curated fleet of distraction-free browser themes published on the Chrome Web S
 
 #### 📊 In-Progress Workspace Utilities
 - **Luach Workweek & Jewish Calendar Harmonizer:** Replaces standard Mon–Fri defaults with Sunday–Thursday workweeks in Sheets and Gantt charts; features an in-memory lunisolar Hebrew calendar engine computing dynamic Chagim, Erev Chag, and Chol HaMoed with custom formulas (`=ISRAEL_WORKDAYS()`, `=IS_CHAG()`).
+- **SheetDiff & Reconciliation Studio:** Replaces brittle lookup formulas with a deterministic, in-memory two-sheet diffing and reconciliation engine in Google Sheets; features composite key entity matching, cell-level delta and numeric variance tracking, non-destructive visual audit overlays, and automated report tab generation with zero external APIs or third-party telemetry.
+- **ChoiceEliminator Studio:** Enforces real-time choice quotas on Multiple Choice, Dropdown, and Checkbox items in Google Forms; features an in-memory concurrency engine using LockService serialization and DocumentProperties snapshots to dynamically eliminate or annotate exhausted slots ([FULL]) with deterministic zero-server execution.
 ---
 
 ### 💻 Tech Stack & System Architecture
