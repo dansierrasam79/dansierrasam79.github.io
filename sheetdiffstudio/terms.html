@@ -1,1 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service | SheetDiff & Reconciliation Studio</title>
+  <meta name="description" content="Terms of Service for SheetDiff & Reconciliation Studio. Client-side, deterministic spreadsheet diffing utility for Google Sheets.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-page: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --callout-bg: #e8f0fe;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background-color: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 16px;
+    }
+
+    .brand-name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    .policy-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 40px;
+    }
+
+    h1 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .effective-date {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+
+    h2 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 15px;
+      color: #3c4043;
+      margin-bottom: 16px;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    li {
+      font-size: 15px;
+      color: #3c4043;
+      margin-bottom: 8px;
+    }
+
+    .callout {
+      background-color: var(--callout-bg);
+      border-left: 4px solid var(--primary);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 24px 0;
+    }
+
+    .callout p {
+      margin-bottom: 0;
+      color: #174ea6;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    code {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12.5px;
+      background-color: #f1f3f4;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #b06000;
+    }
+
+    footer {
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 60px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 12px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">&Delta;</div>
+        <span class="brand-name">SheetDiff & Reconciliation Studio</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="mailto:support@danielchakraborty.com">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="policy-card">
+      <h1>Terms of Service</h1>
+      <div class="effective-date">Last Updated & Effective Date: November 8, 2026</div>
+
+      <div class="callout">
+        <p>
+          Summary: SheetDiff & Reconciliation Studio is a client-side Google Sheets utility operating deterministically inside Google Apps Script. By installing or using the Add-on, you agree to these Terms. All computation occurs locally in your active workbook session, without external telemetry or data collection.
+        </p>
+      </div>
+
+      <h2>1. Acceptance of Terms</h2>
+      <p>
+        These Terms of Service ("Terms") govern your access to and use of <strong>SheetDiff & Reconciliation Studio</strong> (the "Add-on"), developed by Daniel Chakraborty ("Developer", "we", "us", or "our"), staged at <code>danielchakraborty.com</code>. By installing, enabling, or using the Add-on through the Google Workspace Marketplace, you agree to be bound by these Terms and our <a href="privacy.html" style="color: var(--primary); text-decoration: none;">Privacy Policy</a>. If you do not agree to these Terms, do not install or use the Add-on.
+      </p>
+
+      <h2>2. Description of the Service</h2>
+      <p>
+        SheetDiff & Reconciliation Studio is an in-sheet productivity utility designed for Google Sheets. The Add-on allows users to:
+      </p>
+      <ul>
+        <li>Select two sheets (Base Sheet and Target Sheet) within the active workbook.</li>
+        <li>Specify single or composite primary key columns to match entities.</li>
+        <li>Perform in-memory row and cell comparisons to identify added, removed, modified, and unchanged rows.</li>
+        <li>Generate a dedicated reconciliation report tab (<code>Diff_Reconciliation_Report</code>) containing an executive summary card and an itemized audit log.</li>
+        <li>Apply non-destructive visual highlight overlays on the Target sheet and clear highlights on demand.</li>
+      </ul>
+      <p>
+        All calculations and comparisons are executed 100% in-memory via the Google Apps Script V8 runtime within your active Google Workspace session. No external servers, webhooks, or third-party APIs are contacted.
+      </p>
+
+      <h2>3. Permitted Use & User Obligations</h2>
+      <p>You agree to use the Add-on only for lawful purposes and in accordance with these Terms. You agree that you will not:</p>
+      <ul>
+        <li>Reverse engineer, decompile, or disassemble any portion of the Add-on's proprietary client scripts, except as permitted by applicable law.</li>
+        <li>Attempt to interfere with or disrupt the operation of the Google Workspace platform or the Add-on's execution container.</li>
+        <li>Use the Add-on to process data in violation of applicable laws, regulations, or third-party contractual rights.</li>
+      </ul>
+
+      <h2>4. Google OAuth Authorization & Permissions</h2>
+      <p>
+        The Add-on requires authorization under the <code>https://www.googleapis.com/auth/spreadsheets.currentonly</code> and <code>https://www.googleapis.com/auth/script.container.ui</code> OAuth scopes.
+      </p>
+      <p>
+        These permissions are restricted strictly to the single active spreadsheet in which the Add-on is launched. The Add-on does not and cannot access other spreadsheets or files stored in your Google Drive. You may revoke these permissions at any time via your <a href="https://myaccount.google.com/permissions" target="_blank" style="color: var(--primary); text-decoration: none;">Google Account Permissions</a> console.
+      </p>
+
+      <h2>5. Intellectual Property Rights</h2>
+      <p>
+        The Add-on, including its source code, algorithms, user interface designs, documentation, and logos, is the intellectual property of Daniel Chakraborty and is protected by applicable copyright, trade secret, and intellectual property laws.
+      </p>
+      <p>
+        You retain full, exclusive ownership of all data, spreadsheets, cell values, and headers processed by the Add-on. We claim no ownership, license, or rights in your spreadsheet content.
+      </p>
+
+      <h2>6. Disclaimer of Warranties</h2>
+      <p>
+        THE ADD-ON IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+      </p>
+      <p>
+        WHILE THE ADD-ON IS ARCHITECTED FOR DETERMINISTIC AND MATHEMATICAL PRECISION, WE DO NOT GUARANTEE THAT THE ADD-ON WILL BE ERROR-FREE, UNINTERRUPTED, OR FREE FROM GOOGLE APPS SCRIPT PLATFORM QUOTA LIMITS (SUCH AS GOOGLE SHEETS 10-MILLION CELL CONSTRAINTS OR EXECUTION TIMEOUTS). USERS ARE RESPONSIBLE FOR MAINTAINING INDEPENDENT BACKUPS OF THEIR SPREADSHEET DATA.
+      </p>
+
+      <h2>7. Limitation of Liability</h2>
+      <p>
+        TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE DEVELOPER (DANIEL CHAKRABORTY) BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR FOR ANY LOSS OF PROFITS, DATA, USE, GOODWILL, OR BUSINESS INTERRUPTION, ARISING OUT OF OR IN CONNECTION WITH YOUR ACCESS TO OR USE OF (OR INABILITY TO USE) THE ADD-ON.
+      </p>
+      <p>
+        IN NO CASE SHALL OUR TOTAL AGGREGATE LIABILITY ARISING OUT OF OR RELATING TO THESE TERMS OR THE ADD-ON EXCEED THE AMOUNT PAID BY YOU (IF ANY) TO ACCESS THE ADD-ON, OR TEN UNITED STATES DOLLARS ($10.00 USD), WHICHEVER IS LESS.
+      </p>
+
+      <h2>8. Third-Party Services & Platforms</h2>
+      <p>
+        The Add-on operates on the Google Workspace platform. Your use of Google Workspace and Google Sheets is governed by Google's respective Terms of Service and policies. We are not responsible or liable for any acts, omissions, outages, or policy changes implemented by Google LLC.
+      </p>
+
+      <h2>9. Modifications to the Add-on and Terms</h2>
+      <p>
+        We reserve the right to modify, enhance, or discontinue features of the Add-on at any time. We may also revise these Terms periodically. Updates will be published on this page with an updated "Last Updated" date. Continued use of the Add-on after any changes constitutes acceptance of the revised Terms.
+      </p>
+
+      <h2>10. Governing Law</h2>
+      <p>
+        These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law principles.
+      </p>
+
+      <h2>11. Contact Information</h2>
+      <p>
+        For inquiries, questions regarding these Terms, or technical support, please contact:
+      </p>
+      <p style="margin-left: 20px;">
+        <strong>Developer:</strong> Daniel Chakraborty<br>
+        <strong>Portfolio Domain:</strong> <a href="https://danielchakraborty.com" style="color: var(--primary); text-decoration: none;">danielchakraborty.com</a><br>
+        <strong>Support Email:</strong> <a href="mailto:support@danielchakraborty.com" style="color: var(--primary); text-decoration: none;">support@danielchakraborty.com</a>
+      </p>
+    </article>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Overview</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="mailto:support@danielchakraborty.com">Developer Support</a>
+    </div>
+    <p>&copy; 2026 Daniel Chakraborty (danielchakraborty.com). All rights reserved.</p>
+    <p style="margin-top: 6px; font-size: 12px; color: #80868b;">
+      Google Sheets and Google Workspace are registered trademarks of Google LLC.
+    </p>
+  </footer>
+
+</body>
+</html>
