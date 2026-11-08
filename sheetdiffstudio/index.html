@@ -1,1 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SheetDiff & Reconciliation Studio | Deterministic Two-Sheet Diff for Google Sheets</title>
+  <meta name="description" content="Fast, 100% in-memory two-sheet diffing, composite key reconciliation, and visual audit logging for Google Sheets. Zero external servers, zero telemetry, lean currentonly scopes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-page: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --accent-green: #137333;
+      --accent-green-bg: #e6f4ea;
+      --accent-yellow-bg: #fef7e0;
+      --accent-yellow-border: #f9ab00;
+      --accent-red: #c5221f;
+      --accent-red-bg: #fce8e6;
+      --code-bg: #2d3748;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background-color: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 16px;
+    }
+
+    .brand-name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn-nav {
+      background-color: var(--primary);
+      color: #ffffff !important;
+      padding: 8px 16px;
+      border-radius: 4px;
+      transition: background-color 0.15s ease !important;
+    }
+
+    .btn-nav:hover {
+      background-color: var(--primary-dark) !important;
+    }
+
+    .hero {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 64px 24px;
+      text-align: center;
+    }
+
+    .hero-container {
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #e8f0fe;
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      font-family: 'Google Sans', sans-serif;
+    }
+
+    .hero h1 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 40px;
+      line-height: 1.25;
+      font-weight: 700;
+      color: #202124;
+      margin-bottom: 18px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .cta-group {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-family: 'Google Sans', sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background-color: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-family: 'Google Sans', sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: #f1f3f4;
+      border-color: #c6c6c6;
+    }
+
+    .main-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 56px 24px;
+    }
+
+    .section-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 40px auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 56px;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 20px;
+    }
+
+    .card h3 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .security-banner {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 28px;
+      margin-bottom: 56px;
+    }
+
+    .security-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .security-header h3 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .security-banner p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .scope-box {
+      background: #f1f3f4;
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 13px;
+      color: #202124;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .audit-preview {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 56px;
+    }
+
+    .preview-header {
+      background: #3c4043;
+      color: #ffffff;
+      padding: 12px 18px;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .preview-table th {
+      background: #f8f9fa;
+      color: #3c4043;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .preview-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e8eaed;
+      color: #202124;
+    }
+
+    .tag-added {
+      background-color: var(--accent-green-bg);
+      color: var(--accent-green);
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    .tag-modified {
+      background-color: var(--accent-yellow-bg);
+      color: #b06000;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    .tag-removed {
+      background-color: var(--accent-red-bg);
+      color: var(--accent-red);
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    footer {
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      padding: 36px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 28px;
+      }
+      .hero p {
+        font-size: 15px;
+      }
+      .nav-links {
+        display: none;
+      }
+      .preview-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">&Delta;</div>
+        <span class="brand-name">SheetDiff & Reconciliation Studio</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#architecture">Architecture</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="https://workspace.google.com/marketplace" target="_blank" class="btn-nav">Install Add-on</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="badge-pill">
+        <span>Deterministic V8 Engine &bull; Zero External Telemetry</span>
+      </div>
+      <h1>Two-Sheet Diff, Record Reconciliation & Visual Auditing</h1>
+      <p>
+        Compare monthly billing, vendor rosters, inventory counts, or system exports directly inside Google Sheets. 
+        Replaces brittle VLOOKUP/MATCH chains with an in-memory hash comparison that flags added, removed, and modified values in seconds.
+      </p>
+      <div class="cta-group">
+        <a href="https://workspace.google.com/marketplace" target="_blank" class="btn-primary">
+          Get from Workspace Marketplace
+        </a>
+        <a href="#preview" class="btn-secondary">
+          View Audit Demo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-container">
+
+    <!-- Features -->
+    <section id="features">
+      <h2 class="section-title">Engineered for Deterministic Accuracy</h2>
+      <p class="section-subtitle">A zero-cost, client-side utility built strictly to solve period-over-period reconciliation without cloud dependencies or complex formulas.</p>
+
+      <div class="features-grid">
+        <div class="card">
+          <div class="card-icon" style="background: #e8f0fe; color: #1a73e8;">&#9881;</div>
+          <h3>Composite Key Indexing</h3>
+          <p>Match entities across sheets using single identifiers (Account_ID, SKU) or multi-column composite keys (First_Name + Last_Name) with high-speed in-memory Map lookup.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon" style="background: #e6f4ea; color: #137333;">&#10003;</div>
+          <h3>Cell-Level Delta & Variance</h3>
+          <p>Identifies exact modified fields between matching keys, capturing old vs. new values alongside calculated absolute variance and percentage delta for numeric columns.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon" style="background: #fef7e0; color: #b06000;">&#128065;</div>
+          <h3>Non-Destructive Visual Overlay</h3>
+          <p>Optionally highlight additions in soft green and modified values in soft yellow directly on the comparison sheet, populated with cell notes containing previous values.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon" style="background: #fce8e6; color: #c5221f;">&#128221;</div>
+          <h3>Structured Audit Report Tab</h3>
+          <p>Compiles a dedicated <code>Diff_Reconciliation_Report</code> tab containing an executive scorecard (Added, Removed, Modified, Unchanged) and a granular delta table.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon" style="background: #f1f3f4; color: #3c4043;">&#9986;</div>
+          <h3>Data Normalization Rules</h3>
+          <p>Built-in toggles to ignore leading/trailing whitespace, bypass case sensitivity, and evaluate empty cells vs. 'N/A' or '#N/A' sentinels as equivalent.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon" style="background: #e8eaed; color: #202124;">&#128452;</div>
+          <h3>One-Click Highlight Reset</h3>
+          <p>Native menu action to clear all color overlays and cell notes in bulk without mutating values, row positions, or underlying formula references.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Audit Log Preview -->
+    <section id="preview">
+      <h2 class="section-title">Automated Audit Tab Generation</h2>
+      <p class="section-subtitle">Every reconciliation builds a standardized audit grid with deterministic status classifications.</p>
+
+      <div class="audit-preview">
+        <div class="preview-header">
+          <span>Tab: Diff_Reconciliation_Report</span>
+          <span>Status: 100% Deterministic Match</span>
+        </div>
+        <table class="preview-table">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Primary Key</th>
+              <th>Attribute / Column</th>
+              <th>Old Value (Base)</th>
+              <th>New Value (Target)</th>
+              <th>Variance</th>
+              <th>% Variance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag-modified">[MODIFIED]</span></td>
+              <td>ACC-102</td>
+              <td>Monthly_Fee</td>
+              <td>$450.00</td>
+              <td>$550.00</td>
+              <td>+100.00</td>
+              <td>+22.22%</td>
+            </tr>
+            <tr>
+              <td><span class="tag-modified">[MODIFIED]</span></td>
+              <td>ACC-106</td>
+              <td>Plan_Tier</td>
+              <td>Pro</td>
+              <td>Enterprise</td>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+            <tr>
+              <td><span class="tag-added">[ADDED]</span></td>
+              <td>ACC-107</td>
+              <td>-- ALL FIELDS --</td>
+              <td>--</td>
+              <td>Initech LLC | Standard | $200.00 | Active</td>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+            <tr>
+              <td><span class="tag-removed">[REMOVED]</span></td>
+              <td>ACC-103</td>
+              <td>-- ALL FIELDS --</td>
+              <td>Wayne Enterprises | Enterprise | $2500.00</td>
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Architecture & Compliance -->
+    <section id="architecture">
+      <div class="security-banner">
+        <div class="security-header">
+          <span style="font-size: 22px;">&#128274;</span>
+          <h3>Zero External Network Footprint & Strict Scopes</h3>
+        </div>
+        <p>
+          SheetDiff & Reconciliation Studio runs 100% within your spreadsheet via the Google Apps Script V8 runtime. 
+          Your rows and cells are never sent to an external server, third-party database, or language model. 
+          The add-on operates strictly with the least-privilege, container-safe OAuth scope:
+        </p>
+        <div class="scope-box">
+          <span>&#10004;</span>
+          <code>https://www.googleapis.com/auth/spreadsheets.currentonly</code>
+        </div>
+        <p style="margin-top: 14px; font-size: 13px; color: var(--text-muted);">
+          Restricts add-on read and write execution exclusively to the specific spreadsheet file you have opened. It cannot access your other Google Drive files or personal account data.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Overview</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="mailto:support@danielchakraborty.com">Developer Support</a>
+    </div>
+    <p>&copy; 2026 Daniel Chakraborty (danielchakraborty.com). All rights reserved.</p>
+    <p style="margin-top: 6px; font-size: 12px; color: #80868b;">
+      Google Sheets and Google Workspace are registered trademarks of Google LLC.
+    </p>
+  </footer>
+
+</body>
+</html>
