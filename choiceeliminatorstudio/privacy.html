@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — ChoiceEliminator Studio</title>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --text: #202124;
+      --muted: #5f6368;
+      --bg: #ffffff;
+      --surface: #f8f9fa;
+      --border: #dadce0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .brand {
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 0.95rem;
+    }
+    nav a:hover {
+      color: var(--primary);
+    }
+    article {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    .effective-date {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+    }
+    h2 {
+      font-size: 1.35rem;
+      margin-top: 32px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    code {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .highlight-box {
+      background: var(--surface);
+      border-left: 4px solid var(--primary);
+      padding: 16px;
+      margin: 20px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 30px 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 60px;
+    }
+    footer a {
+      color: var(--muted);
+      margin: 0 10px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="brand">ChoiceEliminator Studio</a>
+    <nav>
+      <a href="index.html">Overview</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="mailto:support@danielchakraborty.com">Contact</a>
+    </nav>
+  </header>
 
+  <article>
+    <h1>Privacy Policy</h1>
+    <p class="effective-date">Last Updated & Effective Date: November 8, 2026</p>
+
+    <div class="highlight-box">
+      <strong>Core Privacy Commitment:</strong> ChoiceEliminator Studio is engineered under a zero-server, zero-egress architecture. Your form structure, respondent selections, and quota settings never leave your Google Account. We do not operate external databases, run telemetry, or transmit data across the network.
+    </div>
+
+    <h2>1. Overview and Architecture</h2>
+    <p>ChoiceEliminator Studio ("the add-on", "we", "our") is a Google Workspace editor add-on for Google Forms developed by Daniel Chakraborty. The add-on functions strictly as an in-memory client-side script running via Google Apps Script inside your Google account. All operations occur directly within your form container.</p>
+
+    <h2>2. Data Collection and Usage</h2>
+    <p>We do not collect, harvest, store, or transmit any Personally Identifiable Information (PII) or form response content to external servers. Data processed by the add-on includes:</p>
+    <ul>
+      <li><strong>Form Item Schema & Option Strings:</strong> Read temporarily to display questions and option choices inside the configuration sidebar.</li>
+      <li><strong>Submission Choice Tallies:</strong> Incremented locally to evaluate whether a selected choice has met its configured limit.</li>
+      <li><strong>Configuration Snapshots:</strong> Stored locally using Google Apps Script <code>PropertiesService.getDocumentProperties()</code> bound strictly to your active form file to enable one-click restoration.</li>
+    </ul>
+
+    <h2>3. Scopes and Permissions Requested</h2>
+    <p>ChoiceEliminator Studio adheres strictly to the principle of least privilege, requesting only the minimal permissions necessary to operate:</p>
+    <ul>
+      <li><code>https://www.googleapis.com/auth/forms.currentonly</code>: Used strictly to read question choices, modify choice options when capacity is reached, and receive installable form submission trigger events within the specific form where the add-on is executed. The add-on cannot access any other forms in your Google Drive.</li>
+      <li><code>https://www.googleapis.com/auth/script.container.ui</code>: Used solely to render the configuration sidebar interface inside the Google Forms editor.</li>
+    </ul>
+
+    <h2>4. Data Sharing and Third-Party Transfer</h2>
+    <p>We do not sell, license, share, or transfer your data to any third parties, advertising networks, or external service providers. ChoiceEliminator Studio makes no outbound network connections (no <code>UrlFetchApp</code> calls or external API endpoints).</p>
+
+    <h2>5. Google API Limited Use Disclosure</h2>
+    <p>ChoiceEliminator Studio's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+    <h2>6. Data Retention and Deletion</h2>
+    <p>Because all configuration data and tallies reside in the Google Forms container's <code>DocumentProperties</code>, deleting the add-on from your form or deleting the Google Form itself immediately and permanently purges all associated configurations. You can also reset all counters and restore options at any time using the "Restore Choices" button inside the sidebar.</p>
+
+    <h2>7. Contact and Support</h2>
+    <p>For questions or verification inquiries regarding this Privacy Policy, please contact:</p>
+    <p>
+      <strong>Developer:</strong> Daniel Chakraborty<br>
+      <strong>Website:</strong> <a href="https://danielchakraborty.com">https://danielchakraborty.com</a><br>
+      <strong>Email:</strong> <a href="mailto:support@danielchakraborty.com">support@danielchakraborty.com</a><br>
+      <strong>Alternative Administrative Contact:</strong> <a href="mailto:swapan.eseva.kendra@gmail.com">swapan.eseva.kendra@gmail.com</a>
+    </p>
+  </article>
+
+  <footer>
+    <p>&copy; 2026 Daniel Chakraborty. All rights reserved.</p>
+    <p>
+      <a href="index.html">Overview</a> &bull;
+      <a href="privacy.html">Privacy Policy</a> &bull;
+      <a href="terms.html">Terms of Service</a>
+    </p>
+  </footer>
+</body>
+</html>
