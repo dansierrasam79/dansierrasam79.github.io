@@ -215,4 +215,71 @@
       <h2 id="google-user-data-accessed">2. Google User Data Accessed by the Application</h2>
       <p>In accordance with Google API Services User Data Policy disclosures, Luach Harmonizer accesses only the minimal user data essential to execute calendar conversions and timeline adjustments within the active workbook:</p>
       <ul>
-        <li><strong>Designated Spreadsheet Cell Values:</strong> When
+        <li><strong>Designated Spreadsheet Cell Values:</strong> When you execute a timeline adjustment or invoke a custom formula (such as <code>=HEBREW_DATE()</code>, <code>=IS_CHAG()</code>, <code>=ISRAEL_WORKDAYS()</code>, or <code>=ISRAEL_WORKDAY_ADD()</code>), the Add-on reads input date, task duration, and milestone values exclusively from the cells you explicitly pass as arguments or select in the active sheet.</li>
+        <li><strong>Calculated Cell Outputs:</strong> The Add-on writes computed Hebrew calendar representations and adjusted completion dates directly back to the active spreadsheet.</li>
+        <li><strong>Active Spreadsheet Timezone:</strong> The Add-on queries the document's local timezone (via native Apps Script methods) strictly to avoid calendar date shift anomalies during conversions.</li>
+        <li><strong>Local Container Interface Events:</strong> The Add-on receives user interaction events (button clicks, column mappings, and Chagim toggles) within the sidebar to adjust calculation parameters.</li>
+        <li><strong>Strict Document-Level Isolation:</strong> The Add-on cannot view, search, read, access, or modify any other files, folders, or documents stored in your Google Drive™. It does not access your Google Account email address, personal profile, or contact lists.</li>
+      </ul>
+
+      <h2>3. Minimal Google OAuth Scopes</h2>
+      <p>Luach Harmonizer requests only minimal OAuth scopes required for core functionality:</p>
+      <ul>
+        <li><code>https://www.googleapis.com/auth/spreadsheets.currentonly</code> — Grants access exclusively to the specific Google Sheets document where you explicitly launch or execute the Add-on. It cannot access, read, or modify any other spreadsheets or files across your Google Drive.</li>
+        <li><code>https://www.googleapis.com/auth/script.container.ui</code> — Allows the Add-on to display user interfaces inside Google Sheets, including the task harmonizer sidebar, demo sheet generation alerts, and configuration dialogs via <code>SpreadsheetApp.getUi()</code>. It is not used to embed external tracking scripts, third-party web content, or advertising frames.</li>
+      </ul>
+
+      <h2 id="data-protection-mechanisms">4. Data Protection and Security Mechanisms for Sensitive Data</h2>
+      <p>We implement comprehensive technical and operational safeguards to secure Google user data and protect sensitive spreadsheet information:</p>
+      <ul>
+        <li><strong>Encryption in Transit:</strong> All communications between the Google Sheets client interface and the Google Apps Script execution runtime are strictly encrypted in transit using industry-standard Transport Layer Security (HTTPS / TLS 1.2 or higher) provided directly by Google infrastructure.</li>
+        <li><strong>Runtime Sandbox Isolation:</strong> The Add-on executes strictly within Google Apps Script's secure V8 container sandbox, preventing unauthorized script injection, cross-site scripting (XSS), or memory leakage outside the immediate document container.</li>
+        <li><strong>Ephemeral In-Memory Handling:</strong> Cell data retrieved from the active range resides temporarily in volatile script memory solely for the duration of the deterministic calendar conversion algorithm. Memory is purged immediately upon function completion, ensuring zero persistent caching, residue, or disk storage.</li>
+        <li><strong>Zero Third-Party Code or Network Egress:</strong> The Add-on contains zero external network dependencies (no <code>UrlFetchApp</code> calls), zero third-party analytics trackers, zero advertising SDKs, and zero external database endpoints. All computational operations remain strictly confined within Google's official cloud runtime.</li>
+      </ul>
+
+      <h2 id="data-retention-deletion">5. Data Retention and Deletion of Google User Data</h2>
+      <ul>
+        <li><strong>Zero Data Retention:</strong> Luach Harmonizer maintains a strict zero-retention policy. We do not operate external servers, databases, or logging backends. No Google user data, cell values, formulas, metadata, or authentication tokens are ever stored, logged, cached, or retained on any external system. All data exists ephemerally in runtime memory and ceases to exist as soon as the execution finishes or the browser tab closes.</li>
+        <li><strong>Data Deletion:</strong> Because no user data is ever collected or retained on our systems, there is no stored data to delete.</li>
+        <li><strong>User Access Revocation:</strong> Users have complete control over application permissions at all times. You can immediately revoke Luach Harmonizer's access by visiting <a href="https://myaccount.google.com/connections" target="_blank" rel="noopener">Google Account Permissions (Third-party apps with account access)</a>, selecting <em>Luach Harmonizer</em>, and clicking <em>Delete all connections / Remove Access</em>. Alternatively, you can uninstall the Add-on directly within Google Sheets via <em>Extensions &gt; Add-ons &gt; Manage add-ons</em>.</li>
+      </ul>
+
+      <h2>6. Third-Party Sharing, Transfer, and Disclosure</h2>
+      <p>We do not sell, rent, trade, share, transfer, or disclose Google user data, spreadsheet contents, or personal information to any third parties, advertising platforms, data brokers, or marketing intermediaries. All operations are strictly confined between your authenticated Google account and Google Cloud's official Apps Script infrastructure.</p>
+
+      <h2>7. AI and Machine Learning Model Training Restrictions</h2>
+      <p>Luach Harmonizer does not use, transfer, or disclose Google user data or spreadsheet content to train, retrain, or fine-tune generalized artificial intelligence (AI) or machine learning (ML) models. All calculations are 100% algorithmic and deterministic.</p>
+
+      <h2>8. Google API Services User Data Policy &amp; Limited Use Compliance</h2>
+      <p>Luach Harmonizer's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements:</p>
+      <ul>
+        <li>User data is used exclusively to provide and improve user-facing features of the Add-on within the active spreadsheet.</li>
+        <li>User data is never transferred or sold to third parties, advertising platforms, data brokers, or information resellers.</li>
+        <li>User data is never used for serving advertisements, personalized marketing, or training machine learning models.</li>
+        <li>Human review of user data is strictly prohibited; no human reads or inspects your spreadsheet contents.</li>
+      </ul>
+
+      <h2>9. Trademarks</h2>
+      <p>Google, Google Sheets™, Google Drive™, Google Workspace™, and Google Apps Script™ are trademarks of Google LLC. Luach Harmonizer is an independent software tool developed by Daniel Chakraborty and is not affiliated with, endorsed by, or sponsored by Google LLC.</p>
+
+      <h2>10. Changes to This Privacy Policy</h2>
+      <p>We may update this Privacy Policy periodically to maintain compliance with applicable platform and legal guidelines. Any revisions will be published directly to this page with an updated "Last Updated" date.</p>
+
+      <h2>11. Contact and Developer Information</h2>
+      <p>If you have any questions, concerns, or inquiries regarding this Privacy Policy or data security practices, please contact:</p>
+      <ul>
+        <li><strong>Developer:</strong> Daniel Chakraborty</li>
+        <li><strong>Support Email:</strong> <a href="mailto:swapan.eseva.kendra@gmail.com">support@danielchakraborty.com</a></li>
+        <li><strong>Website:</strong> <a href="https://danielchakraborty.com" target="_blank" rel="noopener">https://danielchakraborty.com</a></li>
+        <li><strong>GitHub Repository:</strong> <a href="https://github.com/dansierrasam79" target="_blank" rel="noopener">https://github.com/dansierrasam79</a></li>
+      </ul>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Daniel Chakraborty. All rights reserved. Google Sheets™ and Google Workspace™ are trademarks of Google LLC.</p>
+  </footer>
+
+</body>
+</html>
