@@ -25,9 +25,9 @@ Every utility in this portfolio is engineered around strict, privacy-first princ
 - **Sheet Data Cleaner Studio:** A zero-AI, deterministic spreadsheet sanitization workbench for Google Sheets.
 - **[Sheet Table Reshaper Studio](https://danielchakraborty.com/sheetreshaperstudio/):** In-memory unpivot/melt engine with multi-tier stacked header collapsing, delimited text-to-rows vertical explosion, and hierarchy unmerge/auto-fill.
 - **[Sheet Consolidator Studio](https://danielchakraborty.com/sheetconsolidatorstudio/):** Multi-tab union and stacking engine with regex sheet-name filtering (`^2026_Q[1-4]`) and schema auto-alignment.
-- **Luach Workweek & Jewish Calendar Harmonizer:** Replaces standard Mon–Fri defaults with Sunday–Thursday workweeks in Sheets and Gantt charts; features an in-memory lunisolar Hebrew calendar engine computing dynamic Chagim, Erev Chag, and Chol HaMoed with custom formulas (`=ISRAEL_WORKDAYS()`, `=IS_CHAG()`).
+- **[Luach Workweek & Jewish Calendar Harmonizer](https://danielchakraborty.com/luachharmonizer/index.html):** Replaces standard Mon–Fri defaults with Sunday–Thursday workweeks in Sheets and Gantt charts; features an in-memory lunisolar Hebrew calendar engine computing dynamic Chagim, Erev Chag, and Chol HaMoed with custom formulas (`=ISRAEL_WORKDAYS()`, `=IS_CHAG()`).
 - **[SheetDiff & Reconciliation Studio](https://danielchakraborty.com/sheetdiffstudio/):** Replaces brittle lookup formulas with a deterministic, in-memory two-sheet diffing and reconciliation engine in Google Sheets; features composite key entity matching, cell-level delta and numeric variance tracking, non-destructive visual audit overlays, and automated report tab generation with zero external APIs or third-party telemetry.
-- **FormLimit Studio:** Enforces real-time response caps and scheduled open/close windows on Google Forms using deterministic `LockService` concurrency controls and zero-server execution.
+- **[FormLimit Studio](https://danielchakraborty.com/formlimitstudio/index.html):** Enforces real-time response caps and scheduled open/close windows on Google Forms using deterministic `LockService` concurrency controls and zero-server execution.
 
 #### 🌐 Chrome Extensions & Browser Tools
 - **FactLens:** Lightweight in-browser fact and entity context reader for research workflows.
