@@ -3,16 +3,16 @@
 [![Google Developer Profile](https://img.shields.io/badge/Google_Developer-danielchakraborty-4285F4?logo=google&logoColor=white)](https://g.dev/danielchakraborty)
 
 ### Developer Hub & Portfolio
-
 Welcome to my personal developer portal and open-source landing hub. This repository hosts documentation, user policies, and support resources for my software utilities, Chrome extensions, themes, and Google Workspace add-ons.
 
-🌐 **Domain:** danielchakraborty.com | **GitHub Pages:** dansierrasam79.github.io
+🌐 **Domain:** [danielchakraborty.com](https://danielchakraborty.com/) | **GitHub Pages:** [dansierrasam79.github.io](https://dansierrasam79.github.io/)
+
 ---
 
 ### 🏛️ Architecture & Design Philosophy
 Every utility in this portfolio is engineered around strict, privacy-first principles:
 - **100% Deterministic & In-Memory:** Client-side processing with zero third-party telemetry, remote databases, or background servers.
-- **Least-Privilege Scopes:** Minimal OAuth boundaries (e.g., `spreadsheets.currentonly`, `script.container.ui`, Chrome Manifest V3) ensuring user data never leaves the local session.
+- **Least-Privilege Scopes:** Minimal OAuth boundaries (e.g., `spreadsheets.currentonly`, `forms.currentonly`, `script.container.ui`, Chrome Manifest V3) ensuring user data never leaves the local session.
 - **Zero-Maintenance Footprint:** Self-contained runtimes with no recurring external API overhead (outside optional user BYOK).
 - **Core Ethos & Dedication:** Built on principles of integrity, transparency, and humble service—founded in memory of my late father, an ordained pastor, whose lifelong counsel remains: *"If you have tried everything else and failed, try Jesus."*
 
@@ -23,10 +23,11 @@ Every utility in this portfolio is engineered around strict, privacy-first princ
 #### 🧩 Google Workspace Add-ons
 - **FormulaFix AI:** An AI-powered Google Sheets add-on that assists users with creating, debugging, and optimizing complex spreadsheet formulas directly inside Google Sheets via BYOK Gemini API integration.
 - **Sheet Data Cleaner Studio:** A zero-AI, deterministic spreadsheet sanitization workbench for Google Sheets.
-- **Sheet Table Reshaper Studio:** In-memory unpivot/melt engine with multi-tier stacked header collapsing, delimited text-to-rows vertical explosion, and hierarchy unmerge/auto-fill.
-- **Sheet Consolidator Studio:** Multi-tab union and stacking engine with regex sheet-name filtering (`^2026_Q[1-4]`) and schema auto-alignment.
+- **[Sheet Table Reshaper Studio](https://danielchakraborty.com/sheetreshaperstudio/):** In-memory unpivot/melt engine with multi-tier stacked header collapsing, delimited text-to-rows vertical explosion, and hierarchy unmerge/auto-fill.
+- **[Sheet Consolidator Studio](https://danielchakraborty.com/sheetconsolidatorstudio/):** Multi-tab union and stacking engine with regex sheet-name filtering (`^2026_Q[1-4]`) and schema auto-alignment.
 - **Luach Workweek & Jewish Calendar Harmonizer:** Replaces standard Mon–Fri defaults with Sunday–Thursday workweeks in Sheets and Gantt charts; features an in-memory lunisolar Hebrew calendar engine computing dynamic Chagim, Erev Chag, and Chol HaMoed with custom formulas (`=ISRAEL_WORKDAYS()`, `=IS_CHAG()`).
-- **SheetDiff & Reconciliation Studio:** Replaces brittle lookup formulas with a deterministic, in-memory two-sheet diffing and reconciliation engine in Google Sheets; features composite key entity matching, cell-level delta and numeric variance tracking, non-destructive visual audit overlays, and automated report tab generation with zero external APIs or third-party telemetry.
+- **[SheetDiff & Reconciliation Studio](https://danielchakraborty.com/sheetdiffstudio/):** Replaces brittle lookup formulas with a deterministic, in-memory two-sheet diffing and reconciliation engine in Google Sheets; features composite key entity matching, cell-level delta and numeric variance tracking, non-destructive visual audit overlays, and automated report tab generation with zero external APIs or third-party telemetry.
+- **FormLimit Studio:** Enforces real-time response caps and scheduled open/close windows on Google Forms using deterministic `LockService` concurrency controls and zero-server execution.
 
 #### 🌐 Chrome Extensions & Browser Tools
 - **FactLens:** Lightweight in-browser fact and entity context reader for research workflows.
@@ -41,15 +42,15 @@ A curated fleet of distraction-free browser themes published on the Chrome Web S
 
 #### 🛡️ Antigravity & Gemini CLI Plugins
 A deterministic suite of zero-egress, least-privilege developer plugins built for Google Antigravity and Gemini CLI:
-- **oauth-scope-minimizer:** Pre-tool OAuth2 and Chrome Manifest V3 least-privilege gatekeeper (`W1–W7`, `C1–C10` rule enforcement).
-- **parquet-arrow-peek:** Zero-egress local Apache Arrow and Parquet schema, metadata, and row-group inspector.
+- **[oauth-scope-minimizer](https://danielchakraborty.com/oauth-scope-minimizer/):** Pre-tool OAuth2 and Chrome Manifest V3 least-privilege gatekeeper (`W1–W7`, `C1–C10` rule enforcement) — [GitHub](https://github.com/dansierrasam79/oauth-scope-minimizer).
 
 ---
 
 ### 🛠️ Active Development & Pipeline
 
-#### 📊 In-Progress Workspace Utilities
-- **ChoiceEliminator Studio:** Enforces real-time choice quotas on Multiple Choice, Dropdown, and Checkbox items in Google Forms; features an in-memory concurrency engine using LockService serialization and DocumentProperties snapshots to dynamically eliminate or annotate exhausted slots ([FULL]) with deterministic zero-server execution.
+#### 📊 In-Progress Workspace & CLI Utilities
+- **[ChoiceEliminator Studio](https://danielchakraborty.com/choiceeliminatorstudio/):** Enforces real-time choice quotas on Multiple Choice, Dropdown, and Checkbox items in Google Forms; features an in-memory concurrency engine using `LockService` serialization and `DocumentProperties` snapshots to dynamically eliminate or annotate exhausted slots (`[FULL]`) with deterministic zero-server execution.
+- **parquet-arrow-peek:** Zero-egress local Apache Arrow and Parquet schema, metadata, and row-group inspector plugin for Google Antigravity and Gemini CLI.
 
 ---
 
@@ -57,8 +58,8 @@ A deterministic suite of zero-egress, least-privilege developer plugins built fo
 
 #### 🛡️ Deterministic Core (Production Utilities)
 Zero-server, in-memory execution engine prioritizing data privacy, low permissions, and predictable performance.
-- **Runtimes & Scripting:** JavaScript (ES6+), TypeScript, Google Apps Script (V8 runtime), HTML5 / Modern CSS
-- **Platform APIs:** Chrome Extensions API (Manifest V3), Google Workspace Add-ons SDK, Google Sheets API
+- **Runtimes & Scripting:** JavaScript (ES6+), TypeScript, Google Apps Script (V8 runtime), Python 3 (Stdlib), Rust, HTML5 / Modern CSS
+- **Platform & Data Formats:** Chrome Extensions API (Manifest V3), Google Workspace Add-ons SDK, Google Sheets API, Apache Arrow & Parquet
 - **Algorithms & Processing:** In-memory tabular parsing, regex streaming engines, lunisolar calendar mathematics, and Unicode BiDi directional text algorithms
 - **Local Dev & Delivery:** Visual Studio Code, PowerShell, Git, GitHub Actions, GitHub Pages
 
@@ -66,16 +67,18 @@ Zero-server, in-memory execution engine prioritizing data privacy, low permissio
 Agentic frameworks, API integrations, and prototype pipelines.
 - **AI Runtimes & APIs:** Google Gemini API (BYOK integration in FormulaFix AI)
 - **Agent Orchestration:** LangGraph, LLM agent scaffolding, and graph-based workflow patterns
-- **Data & Exploration:** Python (prototyping, data modeling, Pandas/BigQuery schema generation)
+- **Data & Exploration:** Python (Polars, Pandas, LightGBM, SHAP, BigQuery schema generation)
 - **Edge & Mobile Concepts:** Android ML Kit, Room database (SnapToTask prototype)
+
 ---
 
 ### 📬 Support & Contact
 If you have questions, feedback, or require technical support for any of the hosted tools or add-ons:
-- **Email:** swapan.eseva.kendra@gmail.com
-- **GitHub:** @dansierrasam79
-- **Website:** danielchakraborty.com
----
-© 2026 Daniel Chakraborty. All rights reserved.
+- **Email:** [swapan.eseva.kendra@gmail.com](mailto:swapan.eseva.kendra@gmail.com)
+- **GitHub:** [@dansierrasam79](https://github.com/dansierrasam79)
+- **Website:** [danielchakraborty.com](https://danielchakraborty.com/)
 
+---
+
+© 2026 Daniel Chakraborty. All rights reserved.  
 *Dedicated in loving memory to my late father, Rev. Swapan Chakraborty, who believed: "If you have tried everything else and failed, try Jesus."*
