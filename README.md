@@ -25,6 +25,8 @@ Every utility in this portfolio is engineered around strict, privacy-first princ
 - **Sheet Data Cleaner Studio:** A zero-AI, deterministic spreadsheet sanitization workbench for Google Sheets.
 - **Sheet Table Reshaper Studio:** In-memory unpivot/melt engine with multi-tier stacked header collapsing, delimited text-to-rows vertical explosion, and hierarchy unmerge/auto-fill.
 - **Sheet Consolidator Studio:** Multi-tab union and stacking engine with regex sheet-name filtering (`^2026_Q[1-4]`) and schema auto-alignment.
+- **Luach Workweek & Jewish Calendar Harmonizer:** Replaces standard Mon–Fri defaults with Sunday–Thursday workweeks in Sheets and Gantt charts; features an in-memory lunisolar Hebrew calendar engine computing dynamic Chagim, Erev Chag, and Chol HaMoed with custom formulas (`=ISRAEL_WORKDAYS()`, `=IS_CHAG()`).
+- **SheetDiff & Reconciliation Studio:** Replaces brittle lookup formulas with a deterministic, in-memory two-sheet diffing and reconciliation engine in Google Sheets; features composite key entity matching, cell-level delta and numeric variance tracking, non-destructive visual audit overlays, and automated report tab generation with zero external APIs or third-party telemetry.
 
 #### 🌐 Chrome Extensions & Browser Tools
 - **FactLens:** Lightweight in-browser fact and entity context reader for research workflows.
@@ -37,14 +39,18 @@ A curated fleet of distraction-free browser themes published on the Chrome Web S
 - **Developer & Minimalist Palette:** OLED PurePitch, NordHorizon, PaperLens, Tokyo Night, Solarized Sepia, Catppuccin Mocha.
 - **Biblical Themes:** Byzantine Gold, Codex Vellum, Mount Sinai Dawn & Gethsemane Olive.
 
+#### 🛡️ Antigravity & Gemini CLI Plugins
+A deterministic suite of zero-egress, least-privilege developer plugins built for Google Antigravity and Gemini CLI:
+- **oauth-scope-minimizer:** Pre-tool OAuth2 and Chrome Manifest V3 least-privilege gatekeeper (`W1–W7`, `C1–C10` rule enforcement).
+- **parquet-arrow-peek:** Zero-egress local Apache Arrow and Parquet schema, metadata, and row-group inspector.
+
 ---
 
 ### 🛠️ Active Development & Pipeline
 
 #### 📊 In-Progress Workspace Utilities
-- **Luach Workweek & Jewish Calendar Harmonizer:** Replaces standard Mon–Fri defaults with Sunday–Thursday workweeks in Sheets and Gantt charts; features an in-memory lunisolar Hebrew calendar engine computing dynamic Chagim, Erev Chag, and Chol HaMoed with custom formulas (`=ISRAEL_WORKDAYS()`, `=IS_CHAG()`).
-- **SheetDiff & Reconciliation Studio:** Replaces brittle lookup formulas with a deterministic, in-memory two-sheet diffing and reconciliation engine in Google Sheets; features composite key entity matching, cell-level delta and numeric variance tracking, non-destructive visual audit overlays, and automated report tab generation with zero external APIs or third-party telemetry.
 - **ChoiceEliminator Studio:** Enforces real-time choice quotas on Multiple Choice, Dropdown, and Checkbox items in Google Forms; features an in-memory concurrency engine using LockService serialization and DocumentProperties snapshots to dynamically eliminate or annotate exhausted slots ([FULL]) with deterministic zero-server execution.
+
 ---
 
 ### 💻 Tech Stack & System Architecture
