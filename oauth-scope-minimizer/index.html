@@ -1,1 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oauth-scope-minimizer — Pre-Tool OAuth &amp; Manifest V3 Gatekeeper | Daniel Chakraborty</title>
+  <meta name="description" content="Deterministic pre-tool OAuth2 and Chrome Manifest V3 least-privilege gatekeeper plugin for Google Antigravity and Gemini CLI. Zero external dependencies, fail-open safety, 37 acceptance tests." />
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --surface: #121826;
+      --surface-alt: #182032;
+      --border: #243047;
+      --text: #e6edf7;
+      --muted: #93a4bd;
+      --accent: #38bdf8;
+      --accent-hover: #7dd3fc;
+      --green: #34d399;
+      --amber: #fbbf24;
+      --red: #f87171;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+    }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+      font-size: 0.92rem;
+    }
+
+    .nav-brand {
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.25rem;
+    }
+
+    .hero {
+      margin-bottom: 2.75rem;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .badge.green { color: var(--green); border-color: rgba(52, 211, 153, 0.3); }
+    .badge.blue { color: var(--accent); border-color: rgba(56, 189, 248, 0.3); }
+
+    h1 {
+      font-size: clamp(1.85rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin-bottom: 0.85rem;
+    }
+
+    .subtitle {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 760px;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.15rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      background: var(--surface-alt);
+      border-color: var(--accent);
+      text-decoration: none;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #06101d;
+      border-color: var(--accent);
+    }
+
+    .btn.primary:hover {
+      background: var(--accent-hover);
+      color: #06101d;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 0.65rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    p.section-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .install-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .install-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+    }
+
+    .install-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.55rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .cmd-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 0.65rem 0.85rem;
+      font-family: var(--mono);
+      font-size: 0.86rem;
+      color: var(--green);
+      overflow-x: auto;
+    }
+
+    .cmd-box code {
+      white-space: nowrap;
+    }
+
+    .copy-btn {
+      flex-shrink: 0;
+      background: var(--surface-alt);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.35rem 0.7rem;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .copy-btn.copied {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .arch-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem;
+    }
+
+    .arch-card h3 {
+      font-size: 0.98rem;
+      margin-bottom: 0.35rem;
+      color: var(--text);
+    }
+
+    .arch-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 0.75rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--surface-alt);
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    td code {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      background: var(--bg);
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      color: var(--accent-hover);
+      word-break: break-word;
+    }
+
+    .pill {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+    }
+
+    .pill.deny { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+    .pill.warn { background: rgba(251, 191, 36, 0.15); color: var(--amber); }
+    .pill.locked { background: rgba(248, 113, 113, 0.25); color: #fca5a5; border: 1px solid rgba(248, 113, 113, 0.4); }
+
+    pre.json-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      font-family: var(--mono);
+      font-size: 0.84rem;
+      color: var(--text);
+      overflow-x: auto;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a class="nav-brand" href="https://danielchakraborty.com/">Daniel Chakraborty</a>
+      <div class="nav-links">
+        <a href="https://danielchakraborty.com/">Portfolio</a>
+        <a href="https://github.com/dansierrasam79/oauth-scope-minimizer" target="_blank" rel="noopener">GitHub Repo</a>
+        <a href="https://github.com/dansierrasam79/oauth-scope-minimizer/blob/main/SPEC.md" target="_blank" rel="noopener">SPEC.md</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="badge-row">
+        <span class="badge green">v1.0.0 · MIT License</span>
+        <span class="badge blue">Google Antigravity Plugin</span>
+        <span class="badge blue">Gemini CLI Extension</span>
+        <span class="badge">Python 3 Stdlib Only</span>
+        <span class="badge">37/37 Acceptance Tests</span>
+      </div>
+      <h1>oauth-scope-minimizer</h1>
+      <p class="subtitle">
+        A deterministic pre-tool gatekeeper that intercepts overly broad Google Apps Script OAuth scopes (<code>W1–W7</code>) and Chrome Manifest V3 permissions or CSP directives (<code>C1–C10</code>) before files touch disk—preventing Google Workspace Marketplace and Chrome Web Store review rejections at authoring time.
+      </p>
+      <div class="cta-row">
+        <a class="btn primary" href="https://github.com/dansierrasam79/oauth-scope-minimizer" target="_blank" rel="noopener">
+          View on GitHub (dansierrasam79/oauth-scope-minimizer)
+        </a>
+        <a class="btn" href="https://github.com/dansierrasam79/oauth-scope-minimizer/releases/tag/v1.0.0" target="_blank" rel="noopener">
+          Release v1.0.0
+        </a>
+      </div>
+    </header>
+
+    <section id="install">
+      <h2>One-Click Installation</h2>
+      <p class="section-desc">
+        Dual-packaged for native remote installation across both Google Antigravity and Gemini CLI with zero external dependencies.
+      </p>
+      <div class="install-grid">
+        <div class="install-card">
+          <div class="install-label">
+            <span>Google Antigravity CLI (<code>PreToolUse</code> hook + skill + rules)</span>
+            <span>Antigravity v1.5+</span>
+          </div>
+          <div class="cmd-box">
+            <code id="cmd-agy">agy plugin install https://github.com/dansierrasam79/oauth-scope-minimizer</code>
+            <button class="copy-btn" data-target="cmd-agy" onclick="copyCommand(this)">Copy</button>
+          </div>
+        </div>
+
+        <div class="install-card">
+          <div class="install-label">
+            <span>Gemini CLI Extension (<code>BeforeTool</code> hook + <code>AGENTS.md</code>)</span>
+            <span>Gemini CLI</span>
+          </div>
+          <div class="cmd-box">
+            <code id="cmd-gemini">gemini extensions install https://github.com/dansierrasam79/oauth-scope-minimizer</code>
+            <button class="copy-btn" data-target="cmd-gemini" onclick="copyCommand(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <h2>Deterministic Architecture</h2>
+      <div class="arch-grid">
+        <div class="arch-card">
+          <h3>Zero-Dependency Stdlib</h3>
+          <p><code>scripts/scope_gate.py</code> uses strictly Python 3 standard library modules (<code>json</code>, <code>sys</code>, <code>os</code>, <code>re</code>, <code>pathlib</code>)—no <code>pip</code> packages, no network calls, zero telemetry.</p>
+        </div>
+        <div class="arch-card">
+          <h3>Clean Stdout / Stderr Contract</h3>
+          <p>Emits pure JSON decision payloads to <code>stdout</code> and routes all diagnostics strictly to <code>stderr</code> so agent JSON parsers never break.</p>
+        </div>
+        <div class="arch-card">
+          <h3>Fail-Open Safety</h3>
+          <p>Non-target files, malformed JSON drafts, or unexpected stdin shapes cleanly emit <code>{}</code> with exit code <code>0</code> so normal development is never stalled.</p>
+        </div>
+        <div class="arch-card">
+          <h3>Non-Overridable MV3 Locks</h3>
+          <p>Project-level <code>.scope-allowlist.json</code> overrides work for justified scopes, while critical Manifest V3 CSP rules (<code>C8</code> &amp; <code>C9</code>) remain permanently locked.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="workspace-rules">
+      <h2>Google Workspace &amp; Apps Script Rules (W1–W7)</h2>
+      <p class="section-desc">
+        Evaluated on every write or edit targeting <code>appsscript.json</code>. Broad scopes are blocked before disk write and paired with narrow <code>.currentonly</code> or Picker alternatives.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Rule</th>
+              <th>Action</th>
+              <th>Blocked Broad Scope</th>
+              <th>Least-Privilege Alternative</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>W1</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>.../auth/spreadsheets</code><br><code>.../auth/spreadsheets.readonly</code></td>
+              <td><code>.../auth/spreadsheets.currentonly</code></td>
+            </tr>
+            <tr>
+              <td><strong>W2</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>.../auth/documents</code><br><code>.../auth/documents.readonly</code></td>
+              <td><code>.../auth/documents.currentonly</code></td>
+            </tr>
+            <tr>
+              <td><strong>W3</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>.../auth/presentations</code><br><code>.../auth/presentations.readonly</code></td>
+              <td><code>.../auth/presentations.currentonly</code></td>
+            </tr>
+            <tr>
+              <td><strong>W4</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>.../auth/forms</code><br><code>.../auth/forms.readonly</code></td>
+              <td><code>.../auth/forms.currentonly</code></td>
+            </tr>
+            <tr>
+              <td><strong>W5</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>.../auth/drive</code></td>
+              <td><code>.../auth/drive.file</code> (Google Picker / app-created files)</td>
+            </tr>
+            <tr>
+              <td><strong>W6</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>.../auth/drive.readonly</code></td>
+              <td><code>.../auth/drive.file</code> or <code>.../auth/drive.metadata.readonly</code></td>
+            </tr>
+            <tr>
+              <td><strong>W7</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>https://mail.google.com/</code><br><code>.../auth/gmail.modify</code></td>
+              <td><code>.../auth/gmail.addons.current.message.readonly</code> / <code>.action</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="chrome-rules">
+      <h2>Chrome Extension Manifest V3 Rules (C1–C10)</h2>
+      <p class="section-desc">
+        Evaluated on every write or edit targeting Manifest V3 <code>manifest.json</code> files (Manifest V2 files are ignored).
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Rule</th>
+              <th>Action</th>
+              <th>Detected Pattern</th>
+              <th>Least-Privilege Remediation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>C1</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>&lt;all_urls&gt;</code> in <code>host_permissions</code> or <code>content_scripts</code></td>
+              <td>Use <code>activeTab</code> + <code>scripting</code> or explicit target origins</td>
+            </tr>
+            <tr>
+              <td><strong>C2</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>*://*/*</code> or <code>https://*/*</code> wildcard host access</td>
+              <td>Restrict to specific domains or invoke on click via <code>activeTab</code></td>
+            </tr>
+            <tr>
+              <td><strong>C3</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>http://*/*</code> cleartext wildcard host access</td>
+              <td>Use HTTPS-only specific origins</td>
+            </tr>
+            <tr>
+              <td><strong>C4</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>tabs</code> in <code>permissions</code></td>
+              <td>Replace with <code>activeTab</code> unless reading URLs/titles across background tabs</td>
+            </tr>
+            <tr>
+              <td><strong>C5</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>webRequest</code> or <code>webRequestBlocking</code></td>
+              <td>Migrate to <code>declarativeNetRequest</code></td>
+            </tr>
+            <tr>
+              <td><strong>C6</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>debugger</code> in <code>permissions</code></td>
+              <td>Use standard WebExtensions APIs (<code>scripting</code>, <code>tabs</code>, <code>storage</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>C7</strong></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><code>cookies</code> in <code>permissions</code></td>
+              <td>Use <code>storage.local</code> or <code>identity</code> OAuth flows</td>
+            </tr>
+            <tr>
+              <td><strong>C8</strong></td>
+              <td><span class="pill locked">NON-OVERRIDABLE</span></td>
+              <td>Remote URLs (<code>https://</code>, <code>http://</code>) in <code>content_security_policy.extension_pages</code></td>
+              <td>Bundle all scripts locally inside the extension package (MV3 requirement)</td>
+            </tr>
+            <tr>
+              <td><strong>C9</strong></td>
+              <td><span class="pill locked">NON-OVERRIDABLE</span></td>
+              <td><code>'unsafe-eval'</code> in <code>content_security_policy.extension_pages</code></td>
+              <td>Remove dynamic code evaluation; use CSP-safe builds (MV3 requirement)</td>
+            </tr>
+            <tr>
+              <td><strong>C10</strong></td>
+              <td><span class="pill warn">ALLOW + WARN</span></td>
+              <td><code>'unsafe-eval'</code> in <code>content_security_policy.sandbox</code></td>
+              <td>Permitted in sandboxed pages; verify sandbox isolation boundary</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="allowlist">
+      <h2>Project-Level Allowlist Override</h2>
+      <p class="section-desc">
+        When an extension or add-on genuinely requires a broader scope (with documented OAuth verification justification), add a <code>.scope-allowlist.json</code> file at your project root. Rules <code>C8</code> and <code>C9</code> cannot be overridden.
+      </p>
+      <pre class="json-block">{
+  "appsscript.json": {
+    "allowedScopes": [
+      "https://www.googleapis.com/auth/spreadsheets"
+    ],
+    "justification": "Batch cross-spreadsheet audit tool verified under restricted scope review."
+  },
+  "manifest.json": {
+    "allowedPermissions": ["tabs"],
+    "allowedHostPatterns": [],
+    "justification": "Tab manager extension grouping open tabs across windows."
+  }
+}</pre>
+    </section>
+
+    <footer>
+      <span>Built by <a href="https://danielchakraborty.com/">Daniel Chakraborty</a> · Dedicated to Swapan Chakraborty</span>
+      <span><a href="https://github.com/dansierrasam79/oauth-scope-minimizer" target="_blank" rel="noopener">github.com/dansierrasam79/oauth-scope-minimizer</a></span>
+    </footer>
+  </div>
+
+  <script>
+    function copyCommand(btn) {
+      const targetId = btn.getAttribute("data-target");
+      const text = document.getElementById(targetId).textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.textContent;
+        btn.textContent = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove("copied");
+        }, 1800);
+      });
+    }
+  </script>
+</body>
+</html>
