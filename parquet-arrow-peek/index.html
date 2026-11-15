@@ -1,1 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>parquet-arrow-peek — Zero-Egress Local Columnar &amp; Tabular Inspector</title>
+  <meta name="description" content="Zero-egress local schema &amp; stats inspector for Parquet, Arrow, Feather, and CSV files—keeps raw data out of LLM context in Google Antigravity and Gemini CLI." />
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --surface: #131a26;
+      --surface-alt: #192232;
+      --border: #263248;
+      --text: #e6edf7;
+      --muted: #93a4bd;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.14);
+      --green: #34d399;
+      --amber: #fbbf24;
+      --red: #f87171;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header / Nav */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(11, 15, 23, 0.85);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    .brand-badge {
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* Hero */
+    .hero {
+      padding: 72px 0 56px;
+      text-align: center;
+      background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12), transparent 60%);
+    }
+
+    .pill-row {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .pill {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .pill strong { color: var(--green); font-weight: 600; }
+
+    h1 {
+      font-size: clamp(2.1rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #38bdf8, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      max-width: 700px;
+      margin: 0 auto 32px;
+      font-size: 1.12rem;
+      color: var(--muted);
+    }
+
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 44px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.94rem;
+      transition: transform 0.12s ease, border-color 0.12s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); text-decoration: none; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #06101c;
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    /* Metrics Strip */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: left;
+    }
+
+    .metric-value {
+      font-family: var(--mono);
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    /* Sections */
+    section {
+      padding: 56px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .section-lead {
+      color: var(--muted);
+      margin-bottom: 32px;
+      max-width: 720px;
+    }
+
+    /* Install Tabs / Cards */
+    .install-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+      gap: 20px;
+    }
+
+    @media (max-width: 520px) {
+      .install-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      color: var(--accent);
+    }
+
+    .code-box {
+      position: relative;
+      background: #070a10;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 44px 14px 14px;
+      font-family: var(--mono);
+      font-size: 0.84rem;
+      color: #d6e4ff;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--surface-alt);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 9px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+
+    /* Architecture Flow */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .arch-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+    }
+
+    .step-num {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--green);
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 2px 9px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .arch-step h3 {
+      font-size: 1.08rem;
+      margin-bottom: 8px;
+    }
+
+    .arch-step p {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    /* Comparison Table */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--surface-alt);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .badge-deny {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--red);
+      background: rgba(248, 113, 113, 0.12);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .badge-allow {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--green);
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    /* Output JSON Preview */
+    pre.json-preview {
+      background: #070a10;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      font-family: var(--mono);
+      font-size: 0.83rem;
+      line-height: 1.55;
+      overflow-x: auto;
+      color: #cbd5e1;
+    }
+
+    .k { color: #38bdf8; }
+    .s { color: #34d399; }
+    .n { color: #fbbf24; }
+    .b { color: #f472b6; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <span>parquet-arrow-peek</span>
+        <span class="brand-badge">v1.0.0</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#install">Install</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#guardrails">Guardrails</a>
+        <a href="#output">Output Schema</a>
+        <a href="https://github.com/dansierrasam79/parquet-arrow-peek" target="_blank" rel="noopener">GitHub &nearr;</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" style="border-top: none;">
+      <div class="container">
+        <div class="pill-row">
+          <span class="pill"><strong>ZERO EGRESS</strong> &bull; 0 Network Sockets</span>
+          <span class="pill">Google Antigravity &amp; Gemini CLI</span>
+          <span class="pill">MIT License</span>
+        </div>
+        <h1>Inspect Columnar Schemas Locally.<br /><span>Never Leak Raw Rows Into LLM Context.</span></h1>
+        <p class="subtitle">
+          A deterministic MCP server and <code>PreToolUse</code> / <code>BeforeTool</code> guardrail hook for
+          <strong>.parquet</strong>, <strong>.arrow</strong>, <strong>.feather</strong>, <strong>.csv</strong>, and <strong>.jsonl</strong> files.
+          Cuts context bloat by up to 99.7% while enforcing strict local-only data privacy.
+        </p>
+        <div class="cta-group">
+          <a href="#install" class="btn btn-primary">Quick Install</a>
+          <a href="https://github.com/dansierrasam79/parquet-arrow-peek" target="_blank" rel="noopener" class="btn btn-secondary">View on GitHub</a>
+        </div>
+
+        <div class="metrics">
+          <div class="metric-card">
+            <div class="metric-value">&lt; 600</div>
+            <div class="metric-label">Hard token cap (&le; 2,000 chars) per metadata response</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">0 Bytes</div>
+            <div class="metric-label">Raw cell values or string min/max PII transmitted</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">&lt; 50 MB</div>
+            <div class="metric-label">Peak RSS memory even on 100 GB+ Parquet files</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">&lt; 100 ms</div>
+            <div class="metric-label">O(1) footer seek &amp; bounded 64 KB CSV/JSONL sampling</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- One-Line Installation -->
+    <section id="install">
+      <div class="container">
+        <h2>One-Line Installation</h2>
+        <p class="section-lead">
+          Packaged with dual manifests (<code>plugin.json</code> and <code>gemini-extension.json</code>) and a zero-venv fallback wrapper so both platforms work immediately out of the box.
+        </p>
+        <div class="install-grid">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Google Antigravity</span>
+              <span class="tag">plugin.json + PreToolUse</span>
+            </div>
+            <div class="code-box" id="cmd-agy">agy plugin install https://github.com/dansierrasam79/parquet-arrow-peek<button class="copy-btn" onclick="copyText('cmd-agy', this)">Copy</button></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Gemini CLI</span>
+              <span class="tag">gemini-extension.json + BeforeTool</span>
+            </div>
+            <div class="code-box" id="cmd-gemini">gemini extensions install https://github.com/dansierrasam79/parquet-arrow-peek<button class="copy-btn" onclick="copyText('cmd-gemini', this)">Copy</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dual-Layer Architecture -->
+    <section id="architecture">
+      <div class="container">
+        <h2>Dual-Layer Zero-Egress Architecture</h2>
+        <p class="section-lead">
+          Separates metadata discovery from code execution so agents write deterministic Polars, DuckDB, or SQL pipelines without ever reading raw records.
+        </p>
+        <div class="arch-grid">
+          <div class="arch-step">
+            <span class="step-num">LAYER 1 &bull; GUARDRAIL HOOK</span>
+            <h3>PreToolUse / BeforeTool Blocker</h3>
+            <p>
+              Intercepts <code>view_file</code> and <code>read_file</code> calls targeting columnar binaries or large tabular files (&gt; 50 KB) in &lt; 15 ms using 100% Python stdlib, redirecting the agent to <code>inspect_schema</code>.
+            </p>
+          </div>
+          <div class="arch-step">
+            <span class="step-num">LAYER 2 &bull; STDIO MCP SERVER</span>
+            <h3>O(1) Footer &amp; Head Inspector</h3>
+            <p>
+              Reads Parquet/Arrow footers via <code>pyarrow</code> without decoding data pages, and samples only the first 64 KB of CSV/JSONL files. Redacts string/binary min/max stats into byte lengths.
+            </p>
+          </div>
+          <div class="arch-step">
+            <span class="step-num">LAYER 3 &bull; AI SKILL</span>
+            <h3>Schema-First Code Generation</h3>
+            <p>
+              <code>skills/parquet-arrow-peek/SKILL.md</code> instructs the agent to generate local DuckDB/Polars scripts that write outputs to disk or print scalar aggregates only—never <code>df.head()</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interception Matrix -->
+    <section id="guardrails">
+      <div class="container">
+        <h2>Guardrail Interception Policy</h2>
+        <p class="section-lead">
+          Deterministic rules enforced before any file bytes enter the model context window.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>File Extension</th>
+                <th>Size Threshold</th>
+                <th>Decision</th>
+                <th>Agent Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>.parquet</code>, <code>.arrow</code>, <code>.feather</code>, <code>.ipc</code></td>
+                <td>Any size (&ge; 0 B)</td>
+                <td><span class="badge-deny">DENY</span></td>
+                <td>Blocked unconditionally; redirected to <code>inspect_schema</code> MCP tool</td>
+              </tr>
+              <tr>
+                <td><code>.csv</code>, <code>.tsv</code>, <code>.jsonl</code>, <code>.ndjson</code></td>
+                <td>&gt; 50 KB (51,200 B)</td>
+                <td><span class="badge-deny">DENY</span></td>
+                <td>Blocked to prevent context blowout; redirected to <code>inspect_schema</code></td>
+              </tr>
+              <tr>
+                <td><code>.csv</code>, <code>.tsv</code>, <code>.jsonl</code>, <code>.ndjson</code></td>
+                <td>&le; 50 KB (51,200 B)</td>
+                <td><span class="badge-allow">ALLOW</span></td>
+                <td>Permitted for small lookup tables and configuration files</td>
+              </tr>
+              <tr>
+                <td>All other extensions</td>
+                <td>Any size</td>
+                <td><span class="badge-allow">ALLOW</span></td>
+                <td>Pass-through with zero interference</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sample Output -->
+    <section id="output">
+      <div class="container">
+        <h2>Deterministic Output Schema (&lt; 600 Tokens)</h2>
+        <p class="section-lead">
+          String and binary min/max values are automatically sanitized to <code>min_len</code> / <code>max_len</code> to prevent PII leakage via row-group bounds.
+        </p>
+        <pre class="json-preview">{
+  <span class="k">"status"</span>: <span class="s">"ok"</span>,
+  <span class="k">"file"</span>: {
+    <span class="k">"path"</span>: <span class="s">"/workspace/data/events.parquet"</span>,
+    <span class="k">"format"</span>: <span class="s">"parquet"</span>,
+    <span class="k">"size_bytes"</span>: <span class="n">1073741824</span>,
+    <span class="k">"row_count"</span>: <span class="n">14500000</span>,
+    <span class="k">"row_count_exact"</span>: <span class="b">true</span>,
+    <span class="k">"row_groups"</span>: <span class="n">12</span>
+  },
+  <span class="k">"columns"</span>: [
+    {
+      <span class="k">"name"</span>: <span class="s">"customer_email"</span>,
+      <span class="k">"physical_type"</span>: <span class="s">"BYTE_ARRAY"</span>,
+      <span class="k">"logical_type"</span>: <span class="s">"STRING"</span>,
+      <span class="k">"nullable"</span>: <span class="b">false</span>,
+      <span class="k">"null_pct"</span>: <span class="n">0.0</span>,
+      <span class="k">"stats"</span>: { <span class="k">"min_len"</span>: <span class="n">12</span>, <span class="k">"max_len"</span>: <span class="n">42</span> }
+    },
+    {
+      <span class="k">"name"</span>: <span class="s">"amount_usd"</span>,
+      <span class="k">"physical_type"</span>: <span class="s">"DOUBLE"</span>,
+      <span class="k">"logical_type"</span>: <span class="s">"FLOAT64"</span>,
+      <span class="k">"nullable"</span>: <span class="b">true</span>,
+      <span class="k">"null_pct"</span>: <span class="n">1.42</span>,
+      <span class="k">"stats"</span>: { <span class="k">"min"</span>: <span class="n">0.01</span>, <span class="k">"max"</span>: <span class="n">99420.5</span>, <span class="k">"distinct_est"</span>: <span class="n">84120</span> }
+    }
+  ],
+  <span class="k">"truncation"</span>: {
+    <span class="k">"truncated"</span>: <span class="b">false</span>,
+    <span class="k">"total_columns"</span>: <span class="n">2</span>,
+    <span class="k">"shown_columns"</span>: <span class="n">2</span>
+  }
+}</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:12px;">
+      <span>parquet-arrow-peek &bull; Built by Daniel Sam (MIT License)</span>
+      <span>
+        <a href="https://github.com/dansierrasam79/parquet-arrow-peek" target="_blank" rel="noopener">GitHub</a> &middot;
+        <a href="https://github.com/dansierrasam79/oauth-scope-minimizer" target="_blank" rel="noopener">oauth-scope-minimizer</a>
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    function copyText(elementId, btn) {
+      const container = document.getElementById(elementId);
+      const text = container.childNodes[0].textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = original; }, 1600);
+      });
+    }
+  </script>
+</body>
+</html>
