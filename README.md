@@ -43,6 +43,7 @@ A curated fleet of distraction-free browser themes published on the Chrome Web S
 #### 🛡️ Antigravity & Gemini CLI Plugins
 A deterministic suite of zero-egress, least-privilege developer plugins built for Google Antigravity and Gemini CLI:
 - **[oauth-scope-minimizer](https://danielchakraborty.com/oauth-scope-minimizer/):** Pre-tool OAuth2 and Chrome Manifest V3 least-privilege gatekeeper (`W1–W7`, `C1–C10` rule enforcement) — [GitHub](https://github.com/dansierrasam79/oauth-scope-minimizer).
+- **[parquet-arrow-peek] (https://danielchakraborty.com/parquet-arrow-peek/):** Zero-egress local Apache Arrow and Parquet schema, metadata, and row-group inspector plugin for Google Antigravity and Gemini CLI.— [GitHub](https://github.com/dansierrasam79/parquet-arrow-peek).
 
 ---
 
@@ -50,7 +51,6 @@ A deterministic suite of zero-egress, least-privilege developer plugins built fo
 
 #### 📊 In-Progress Workspace & CLI Utilities
 - **[ChoiceEliminator Studio](https://danielchakraborty.com/choiceeliminatorstudio/):** Enforces real-time choice quotas on Multiple Choice, Dropdown, and Checkbox items in Google Forms; features an in-memory concurrency engine using `LockService` serialization and `DocumentProperties` snapshots to dynamically eliminate or annotate exhausted slots (`[FULL]`) with deterministic zero-server execution.
-- **parquet-arrow-peek:** Zero-egress local Apache Arrow and Parquet schema, metadata, and row-group inspector plugin for Google Antigravity and Gemini CLI.
 
 ---
 
