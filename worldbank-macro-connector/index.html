@@ -1,1 +1,65 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World Bank Macro Indicators — Looker Studio Community Connector | Daniel Chakraborty</title>
+  <meta name="description" content="Zero-server, keyless Google Looker Studio Community Connector for World Bank Open Data API v2 macroeconomic indicators." />
+  <style>
+    :root {
+      --navy: #0F172A;
+      --slate-bg: #F1F5F9;
+      --card-bg: #FFFFFF;
+      --border: #E2E8F0;
+      --text-main: #0F172A;
+      --text-muted: #475569;
+      --blue: #2563EB;
+      --blue-hover: #1D4ED8;
+      --teal: #0D9488;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background-color: var(--slate-bg);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    header {
+      background-color: var(--navy);
+      color: #FFFFFF;
+      padding: 3.5rem 1.5rem 4rem;
+      border-bottom: 1px solid #1E293B;
+    }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(37, 99, 235, 0.2);
+      color: #93C5FD;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    header h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    header p {
+      color: #94A3B8;
+      font-size: 1.1rem;
+      max-width: 720px;
+      margin-bottom: 1.75rem;
+    }
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
