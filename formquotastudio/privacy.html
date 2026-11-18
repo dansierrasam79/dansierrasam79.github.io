@@ -124,6 +124,7 @@
   <ul>
     <li><code>https://www.googleapis.com/auth/forms.currentonly</code>: Grants per-file access strictly limited to the specific, active Google Form where the user runs the Add-on. Used to read question items, modify active choice arrays (eliminating exhausted options or prepending "[FULL]"), and process installable form submission triggers.</li>
     <li><code>https://www.googleapis.com/auth/script.container.ui</code>: Allows the Add-on to render its configuration sidebar and modal dialogs inside the Google Forms editor via <code>FormApp.getUi()</code>. It is never used to embed external web frames or third-party tracking scripts.</li>
+    <li><code>https://www.googleapis.com/auth/script.scriptapp</code>: Allows the Add-on to programmatically create and verify an installable <code>onFormSubmit</code> trigger via <code>ScriptApp.newTrigger()</code> so option quotas are enforced automatically in the background when respondents submit the form.</li>
   </ul>
 
   <h2 id="data-protection-mechanisms">4. Data Protection and Security Mechanisms for Sensitive Data</h2>
