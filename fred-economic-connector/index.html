@@ -1,1 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FRED Economic Data — Looker Studio Community Connector | Daniel Chakraborty</title>
+  <meta name="description" content="Zero-server, BYOK Google Looker Studio Community Connector streaming Federal Reserve Economic Data (FRED) macroeconomic time series." />
+  <style>
+    :root {
+      --navy: #0F172A;
+      --slate-bg: #F1F5F9;
+      --card-bg: #FFFFFF;
+      --border: #E2E8F0;
+      --text-main: #0F172A;
+      --text-muted: #475569;
+      --blue: #2563EB;
+      --blue-hover: #1D4ED8;
+      --teal: #0D9488;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background-color: var(--slate-bg);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    header {
+      background-color: var(--navy);
+      color: #FFFFFF;
+      padding: 3.5rem 1.5rem 4rem;
+      border-bottom: 1px solid #1E293B;
+    }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(37, 99, 235, 0.2);
+      color: #93C5FD;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    header h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    header p {
+      color: #94A3B8;
+      font-size: 1.1rem;
+      max-width: 740px;
+      margin-bottom: 1.75rem;
+    }
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+    .btn-primary {
+      background-color: var(--blue);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.35rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: background-color 0.15s ease;
+    }
+    .btn-primary:hover { background-color: var(--blue-hover); }
+    .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #F8FAFC;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.35rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    .btn-secondary:hover { background-color: rgba(255, 255, 255, 0.14); }
+    main {
+      padding: 2.5rem 1.5rem 4rem;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .card h2, .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+    .card p, .card li {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+    }
+    .section-card h2 {
+      font-size: 1.35rem;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.7rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #F8FAFC;
+      color: #334155;
+      font-weight: 600;
+    }
+    code {
+      background: #F1F5F9;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85rem;
+      color: #0F172A;
+    }
+    ul { padding-left: 1.25rem; margin-top: 0.5rem; }
+    li { margin-bottom: 0.45rem; }
+    footer {
+      border-top: 1px solid var(--border);
+      background: #FFFFFF;
+      padding: 2rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .footer-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    footer a {
+      color: var(--blue);
+      text-decoration: none;
+      margin-left: 1.25rem;
+    }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <span class="badge">Looker Studio Community Connector</span>
+      <h1>FRED Economic Data</h1>
+      <p>Zero-server, BYOK Google Looker Studio Community Connector streaming 800,000+ Federal Reserve Economic Data (FRED) macroeconomic series directly from the St. Louis Fed REST API.</p>
+      <div class="cta-group">
+        <a class="btn-primary" href="https://lookerstudio.google.com/datasources/create?connectorId=AKfycbytFOhYUUcE5anEwhigolciLAMmGTN-fJLYJf8Wwn-K" target="_blank" rel="noopener">Connect in Looker Studio</a>
+        <a class="btn-secondary" href="https://lookerstudio.google.com/reporting/c34e9794-8844-41e0-a085-7f112f49ed07" target="_blank" rel="noopener">View Template Report</a>
+      </div>
+    </div>
+  </header>
 
+  <main class="container">
+    <div class="grid-3">
+      <div class="card">
+        <h3>Private BYOK Authentication</h3>
+        <p>Uses <code>AuthTypes.KEY</code> so every user supplies their own free 32-character FRED API key, stored strictly per-user inside Google's <code>PropertiesService.getUserProperties()</code>.</p>
+      </div>
+      <div class="card">
+        <h3>Native FRED Transformations</h3>
+        <p>Supports flagship presets (<code>CPIAUCSL</code>, <code>GDP</code>, <code>FEDFUNDS</code>, <code>UNRATE</code>, <code>DGS10</code>, <code>M2SL</code>) or any custom Series ID with server-side YoY % (<code>pc1</code>), MoM % (<code>pch</code>), and frequency resampling.</p>
+      </div>
+      <div class="card">
+        <h3>Zero-Server &amp; Secret Hygiene</h3>
+        <p>Runs 100% inside Google Apps Script V8 with strict <code>script.external_request</code> scope, <code>urlFetchWhitelist</code> pinned to <code>api.stlouisfed.org</code>, and SHA-256 secret-free caching.</p>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>Semantic Schema Reference</h2>
+      <p>The connector exposes 8 deterministic fields (5 dimensions and 3 metrics) for macroeconomic time-series analysis, KPI scorecards, and multi-series dashboard blending:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Field Name</th>
+            <th>Field ID</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Date</td>
+            <td><code>date</code></td>
+            <td>Date (<code>YYYYMMDD</code>)</td>
+            <td>Observation date formatted for continuous Looker Studio time-series charts.</td>
+          </tr>
+          <tr>
+            <td>Year</td>
+            <td><code>year</code></td>
+            <td>Year (<code>YYYY</code>)</td>
+            <td>4-digit observation year for annual rollups and period comparisons.</td>
+          </tr>
+          <tr>
+            <td>Series ID</td>
+            <td><code>series_id</code></td>
+            <td>Text</td>
+            <td>Resolved uppercase FRED Series ID (e.g., <code>CPIAUCSL</code>, <code>FEDFUNDS</code>).</td>
+          </tr>
+          <tr>
+            <td>Series Label</td>
+            <td><code>series_label</code></td>
+            <td>Text</td>
+            <td>Custom display label if configured, otherwise defaults to the resolved Series ID.</td>
+          </tr>
+          <tr>
+            <td>Units Code</td>
+            <td><code>units_code</code></td>
+            <td>Text</td>
+            <td>Applied FRED transformation code (<code>lin</code>, <code>chg</code>, <code>pch</code>, <code>pc1</code>, <code>log</code>).</td>
+          </tr>
+          <tr>
+            <td>Value</td>
+            <td><code>value</code></td>
+            <td>Number (AVG)</td>
+            <td>Parsed numeric observation value (Average aggregation prevents distortion across time buckets).</td>
+          </tr>
+          <tr>
+            <td>Value (Sum)</td>
+            <td><code>value_sum</code></td>
+            <td>Number (SUM)</td>
+            <td>Additive sum metric suitable for volume or flow series.</td>
+          </tr>
+          <tr>
+            <td>Observation Count</td>
+            <td><code>observation_count</code></td>
+            <td>Number (SUM)</td>
+            <td>Count of valid non-missing observations (FRED <code>"."</code> sentinels are filtered cleanly).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-card" id="support">
+      <h2>Quick Start &amp; Support</h2>
+      <ul>
+        <li><strong>Step 1:</strong> Obtain a free 32-character API key from your <a href="https://fredaccount.stlouisfed.org/apikeys" target="_blank" rel="noopener">St. Louis Fed FRED Account</a>.</li>
+        <li><strong>Step 2:</strong> Click <em>Connect in Looker Studio</em> above, authorize <code>script.external_request</code>, and paste your personal FRED API key when prompted.</li>
+        <li><strong>Step 3:</strong> Pick a macroeconomic preset (or choose <code>CUSTOM</code> and enter any FRED Series ID), select your unit transformation (such as <code>pc1</code> for YoY %) and optional frequency aggregation, and click <strong>Connect</strong>.</li>
+        <li><strong>Support Contact:</strong> For bug reports, feature requests, or integration assistance, reach out via <a href="https://danielchakraborty.com">danielchakraborty.com</a>.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>&copy; 2026 Daniel Chakraborty. Source: Federal Reserve Bank of St. Louis (FRED&reg;).</div>
+      <div>
+        <a href="index.html">Overview</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
