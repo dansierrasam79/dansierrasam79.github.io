@@ -63,3 +63,235 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.85rem;
+    }
+    .btn-primary {
+      background-color: var(--blue);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.35rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: background-color 0.15s ease;
+    }
+    .btn-primary:hover { background-color: var(--blue-hover); }
+    .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #F8FAFC;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.35rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    .btn-secondary:hover { background-color: rgba(255, 255, 255, 0.14); }
+    main {
+      padding: 2.5rem 1.5rem 4rem;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .card h2, .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+    .card p, .card li {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+    }
+    .section-card h2 {
+      font-size: 1.35rem;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.7rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background-color: #F8FAFC;
+      color: #334155;
+      font-weight: 600;
+    }
+    code {
+      background: #F1F5F9;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85rem;
+      color: #0F172A;
+    }
+    ul { padding-left: 1.25rem; margin-top: 0.5rem; }
+    li { margin-bottom: 0.45rem; }
+    footer {
+      border-top: 1px solid var(--border);
+      background: #FFFFFF;
+      padding: 2rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .footer-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    footer a {
+      color: var(--blue);
+      text-decoration: none;
+      margin-left: 1.25rem;
+    }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <span class="badge">Looker Studio Community Connector</span>
+      <h1>World Bank Macro Indicators</h1>
+      <p>Zero-server, keyless Google Looker Studio Community Connector streaming live macroeconomic time series directly from the World Bank Open Data API v2.</p>
+      <div class="cta-group">
+        <a class="btn-primary" href="https://lookerstudio.google.com/datasources/create?connectorId=YOUR_DEPLOYMENT_ID" target="_blank" rel="noopener">Connect in Looker Studio</a>
+        <a class="btn-secondary" href="https://lookerstudio.google.com/reporting/YOUR_TEMPLATE_REPORT_ID" target="_blank" rel="noopener">View Template Report</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid-3">
+      <div class="card">
+        <h3>Keyless Public Access</h3>
+        <p>Uses <code>AuthTypes.NONE</code> with zero API key setup. Every Looker Studio viewer queries World Bank Open Data directly under their own session.</p>
+      </div>
+      <div class="card">
+        <h3>Zero-Server Architecture</h3>
+        <p>Runs 100% inside Google Apps Script V8 with strict <code>script.external_request</code> scope and 30-minute in-memory caching. No proxy servers or external databases.</p>
+      </div>
+      <div class="card">
+        <h3>Multi-Country &amp; Custom WDI</h3>
+        <p>Filter by semicolon-separated ISO-3 codes or query all economies, exclude regional aggregates, and pull any World Development Indicators (WDI) code.</p>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>Semantic Schema Reference</h2>
+      <p>The connector exposes 9 deterministic fields (6 dimensions and 3 metrics) for geographic maps, time-series charts, and executive scorecards:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Field Name</th>
+            <th>Field ID</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Country / Economy Name</td>
+            <td><code>country_name</code></td>
+            <td>Country (Text)</td>
+            <td>Official World Bank economy or regional aggregate name.</td>
+          </tr>
+          <tr>
+            <td>Country ISO-3 Code</td>
+            <td><code>country_iso3</code></td>
+            <td>Country (ISO-3)</td>
+            <td>3-letter ISO 3166-1 alpha-3 code for filled Geo Charts.</td>
+          </tr>
+          <tr>
+            <td>Indicator ID</td>
+            <td><code>indicator_id</code></td>
+            <td>Text</td>
+            <td>World Bank WDI series identifier (e.g., <code>NY.GDP.MKTP.CD</code>).</td>
+          </tr>
+          <tr>
+            <td>Indicator Name</td>
+            <td><code>indicator_name</code></td>
+            <td>Text</td>
+            <td>Full descriptive title of the selected World Bank indicator.</td>
+          </tr>
+          <tr>
+            <td>Observation Date</td>
+            <td><code>observation_date</code></td>
+            <td>Date (<code>YYYYMMDD</code>)</td>
+            <td>January 1st of the observation year for continuous timelines.</td>
+          </tr>
+          <tr>
+            <td>Year</td>
+            <td><code>year</code></td>
+            <td>Year (<code>YYYY</code>)</td>
+            <td>4-digit observation year for annual comparisons.</td>
+          </tr>
+          <tr>
+            <td>Indicator Value</td>
+            <td><code>value</code></td>
+            <td>Number (AVG)</td>
+            <td>Reported numeric value (Average default aggregation).</td>
+          </tr>
+          <tr>
+            <td>Indicator Value (Sum)</td>
+            <td><code>value_sum</code></td>
+            <td>Number (SUM)</td>
+            <td>Additive sum metric suitable for volume indicators like GDP or Population.</td>
+          </tr>
+          <tr>
+            <td>Observation Count</td>
+            <td><code>observation_count</code></td>
+            <td>Number (SUM)</td>
+            <td>Count of valid non-null observations returned.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-card" id="support">
+      <h2>Quick Start &amp; Support</h2>
+      <ul>
+        <li><strong>Step 1:</strong> Click <em>Connect in Looker Studio</em> above and authorize the minimal external network permission (<code>script.external_request</code>).</li>
+        <li><strong>Step 2:</strong> Choose a built-in macroeconomic preset (such as GDP Current US$, GDP Growth %, Inflation CPI %, or Population) or enter a custom World Bank WDI series ID.</li>
+        <li><strong>Step 3:</strong> Specify semicolon-separated ISO-3 country codes (e.g., <code>USA;IND;DEU;JPN;GBR</code>) or enter <code>all</code> to retrieve all economies.</li>
+        <li><strong>Support Contact:</strong> For bug reports, feature requests, or integration assistance, reach out via <a href="https://danielchakraborty.com">danielchakraborty.com</a>.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>&copy; 2026 Daniel Chakraborty. Data sourced from World Bank Open Data (CC BY 4.0).</div>
+      <div>
+        <a href="index.html">Overview</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
